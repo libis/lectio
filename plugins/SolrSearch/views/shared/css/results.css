@@ -473,6 +473,10 @@ ul {
   float: left;
 }
 
+#solr-facets .news{
+  float:none !important;
+}
+
 /* line 54, sass/results.scss */
 #solr-results {
   margin-left: 22%;
