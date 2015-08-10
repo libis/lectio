@@ -676,7 +676,7 @@
   /* !---------- Footer ---------- */
   /* line 561, sass/_screen.scss */
   footer {
-    margin-top: 1.71429em;
+    margin: 1.71429em 0;
     padding-top: 0.87429em;
     text-align: center;
     font-family: 'Source Sans Pro', sans-serif;
