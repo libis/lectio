@@ -475,6 +475,7 @@ ul {
 
 #solr-facets .news{
   float:none !important;
+  padding:0 !important;
 }
 
 /* line 54, sass/results.scss */
