@@ -187,3 +187,5 @@ pip-log.txt
 /plugins/SolrSearch/views/shared/css/sass/
 /plugins/SolrSearch/solr-core/
 /db.ini
+/files/
+/themes/lectio/images/
