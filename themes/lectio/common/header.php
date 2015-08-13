@@ -48,7 +48,8 @@
     <div id="wrap">
         <header role="banner">
             <div id="site-title">
-                <?php echo link_to_home_page(theme_logo()); ?>
+                <a href="<?php echo html_escape(WEB_ROOT)."/";?>"><?php echo option('site_title'); ?></a>
+                
 		 
             </div>
 	   <nav id="top-nav" class="top" role="navigation">
