@@ -228,17 +228,12 @@
   }
   /* line 185, sass/_screen.scss */
   .show #primary > div, .show #content #sidebar > div {
-    border-style: solid;
-    border-width: 10px 0 0 0;
     padding: 0.85714em 16px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     *behavior: url("../javascripts/boxsizing.htc");
     margin-bottom: 1.28571em;
-    -moz-box-shadow: rgba(0, 0, 0, 0.15) 0 0 10px;
-    -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0 0 10px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0 0 10px;
   }
   /* line 193, sass/_screen.scss */
   .show #primary > div > *:first-child, .show #content #sidebar > div > *:first-child {
@@ -493,12 +488,8 @@
   /* line 400, sass/_screen.scss */
   .item-pagination li {
     display: inline-block;
-    background-color: #fff;
     margin: 0 0 0.85714em 0;
     padding: 0.42857em 8px;
-    -moz-box-shadow: rgba(0, 0, 0, 0.15) 0 0 10px;
-    -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0 0 10px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0 0 10px;
   }
   /* line 407, sass/_screen.scss */
   .item-pagination li:empty {
@@ -1151,14 +1142,7 @@
     padding: 0;
     padding: 0;
   }
-  /* line 991, sass/_screen.scss */
-  .items.show #primary > div {
-    border-top-width: 10px;
-    border-top-style: solid;
-    -moz-box-shadow: rgba(0, 0, 0, 0.15) 0 0 10px;
-    -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0 0 10px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0 0 10px;
-  }
+  
 
   /* line 999, sass/_screen.scss */
   #content #outputs {
