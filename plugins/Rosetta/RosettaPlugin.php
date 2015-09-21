@@ -21,7 +21,9 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
         'config',        
         'after_save_item',
         'define_acl',
-        'admin_head'
+        'admin_head',
+        'admin_items_show', 
+        'public_items_show'
     );
 
     protected $_filters = array(
@@ -135,25 +137,45 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
         $acl->allow(null, 'Rosetta_RosettaObjects', array('edit', 'delete'),
         new Omeka_Acl_Assert_Ownership);
     }
-
+    
     /**
-    * Shows the rosetta urls on the admin show page in the secondary column
-    * @param Item $item
-    * @return void
-    **/
-    public function hookAdminItemsShowSidebar($item,$view){
-        $images = rosetta_get_images($item, 'thumbnail');
-        $html = '<div class="panel"><h2>Rosetta</h2>';
-        
+     * Render the object on admin show page.
+     */
+    public function hookAdminItemsShow($args)
+    {
+        $images = rosetta_get_images($args['item']);
+        if(!$images):
+            return;
+        endif;
+
+        $html = '<div id="rosetta_objects" class="element">';
         foreach($images as $image):
             $html .= '<img src="'.$image.'">';
         endforeach;
-        
-        $html .='<br><br></div>';
-        
-        return $html;
+        $html .= '</div>';
+        echo $html;
     }
     
+    /**
+     * Render the object on public show page.
+     */
+    public function hookPublicItemsShow($args)
+    {
+        if (array_key_exists('item', $args)) {
+            $images = rosetta_get_images($args['item']);
+            if(!$images):
+                return;
+            endif;
+            
+            $html = '<div id="rosetta_objects" class="element">';
+            foreach($images as $image):
+                $html .= '<img src="'.$image.'">';
+            endforeach;
+            $html .= '</div>';
+            echo $html;
+        }
+    }
+
     public function hookAdminHead($args)
     {
         $view = $args['view'];

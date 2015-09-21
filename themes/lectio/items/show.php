@@ -17,13 +17,10 @@
 <aside id="sidebar">
 
     <!-- The following returns all of the files associated with an item. -->
-    
-    <?php $images = rosetta_get_images($item);?>
-    <?php if ($images): ?>
+    <?php if (metadata('item', 'has files')): ?>
     <div id="itemfiles" class="element">
-        <?php foreach($images as $image):?>
-            <img src="<?php echo $image;?>">
-        <?php endforeach;?>
+        <h3><?php echo __('Files'); ?></h3>
+        <div class="element-text"><?php echo files_for_item(); ?></div>
     </div>
     <?php endif; ?>
 
