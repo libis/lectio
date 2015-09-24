@@ -40,11 +40,6 @@
     </div>
     <?php endif;?>
 
-    <!-- The following prints a citation for this item. -->
-    <div id="item-citation" class="element">
-        <h2><?php echo __('Citation'); ?></h2>
-        <div class="element-text"><?php echo metadata('item', 'citation', array('no_escape' => true)); ?></div>
-    </div>
 
 </aside>
 
