@@ -109,6 +109,10 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
         if (!($post = $args['post'])) {
             return;
         }
+        
+        if ($post['pid'] == null) {
+            return;
+        }
 
         $item = $args['record'];
         $post = $_POST;
