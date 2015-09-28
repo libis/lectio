@@ -228,13 +228,19 @@
   }
   /* line 185, sass/_screen.scss */
   .show #primary > div, .show #content #sidebar > div {
-    padding: 0.85714em 16px;
+    padding: 0.85714em 0px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     *behavior: url("../javascripts/boxsizing.htc");
     margin-bottom: 1.28571em;
   }
+  
+  #rosetta_objects img{
+      width:100%;
+      max-width:300px;
+  }
+  
   /* line 193, sass/_screen.scss */
   .show #primary > div > *:first-child, .show #content #sidebar > div > *:first-child {
     margin-top: 0em;
@@ -248,6 +254,11 @@
   .show .item-file .download-file {
     display: block;
   }
+  
+  .element-set #dublin-core-title{
+      display:none;
+  }
+  
   /* line 204, sass/_screen.scss */
   .show .item-file img {
     vertical-align: bottom;
@@ -706,6 +717,10 @@
     margin-top: -200px;
     *zoom: 1;
   }
+  body.show #content{
+      background: #fff;
+  }
+  
   /* line 38, ../../../../../../../lib/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/utilities/general/_clearfix.scss */
   #content:after {
     content: "";
@@ -769,13 +784,14 @@
   }
   /* line 644, sass/_screen.scss */
   #content .element-set div {
-    padding-bottom: 0.85714em;
     margin-bottom: 0;
   }
   /* line 648, sass/_screen.scss */
   #content .element-set div:only-of-type, #content .element-set div:last-of-type {
     border-bottom: 0;
     padding-bottom: 0.42857em;
+    
+    overflow: hidden;
   }
   /* line 655, sass/_screen.scss */
   #content .item-meta {
@@ -1102,7 +1118,18 @@
   /* line 951, sass/_screen.scss */
   .items.show h3 {
     margin-bottom: 0.85714em;
+    color:#86443c;
+    font-weight: bold;
+    font-style: initial;
+    width:200px;
+    margin:0;
   }
+  
+  .element {
+      clear:both;
+      margin-bottom:10px !important;
+  }
+  
   /* line 955, sass/_screen.scss */
   .items.show #itemfiles #item-images > div {
     width: 22.5%;
@@ -2225,6 +2252,10 @@
   .collections.show .item-img {
     margin-left: 0;
   }
+  
+  .items.show h3 {
+    float: left;
+  }  
 
   /* !---------- ExhibitBuilder ---------- */
   /* line 319, sass/_screen_768.scss */
