@@ -968,6 +968,13 @@
   }
 
   /* !---------- Home ---------- */
+  /* line 868, sass/_screen.scss */
+  #home #content div h3, #home #content div h4, #home #content div h5, #home #content div h6,
+  #home #content div p, #home #content div input, #home #content div textarea {
+    margin-top: 0.85714em;
+    margin-bottom: 0.85714em;
+  }
+  
   /* line 823, sass/_screen.scss */
   #home #intro-text {
     background: #fff;
@@ -978,15 +985,21 @@
   /* line 829, sass/_screen.scss */
   #home #intro-text p {
     padding: 0;
-    margin: 0;
+    margin: 0 !important;
   }
   /* line 834, sass/_screen.scss */
-  #home #intro-text div {
+  #home #intro-text {
     font-family: 'Source Sans Pro', sans-serif;
-    font-size: 35px;
+    font-size: 24px;
     line-height: 42px;
     text-align: center;
   }
+  
+  #home #intro-text h2{
+      font-size: 35px;
+      margin-bottom:5px;
+  }  
+  
   /* line 845, sass/_screen.scss */
   #home #content div#recent-items .item {
     margin-left: -16px;
@@ -1015,12 +1028,7 @@
   #home #content div .items-list .item-description {
     margin: 0.85714em 0 0;
   }
-  /* line 868, sass/_screen.scss */
-  #home #content div h3, #home #content div h4, #home #content div h5, #home #content div h6,
-  #home #content div p, #home #content div input, #home #content div textarea {
-    margin-top: 0.85714em;
-    margin-bottom: 0.85714em;
-  }
+  
   /* line 874, sass/_screen.scss */
   #home #content div img {
     display: block;
@@ -2134,13 +2142,13 @@
   }
   /* line 250, sass/_screen_768.scss */
   #home #content #intro-text {
-    width: 48.14815%;
+    width: 33%;
     float: left;
     margin-right: 3.7037%;
     display: inline;
-    margin-left: 25.92593%;
-    margin-right: 25.92593%;
-    padding: 3.42857em;
+    margin-left: 33%;
+    margin-right: 33%;
+    margin-bottom:3.7037%;
   }
 
   /* !---------- Project --------- */

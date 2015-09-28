@@ -1,9 +1,9 @@
 <?php echo head(array('bodyid'=>'home')); ?>
 
 <div id="intro-text">
-	<?php if (get_theme_option('Homepage Text')): ?>
-	<p><?php echo get_theme_option('Homepage Text'); ?></p>
-	<?php endif; ?>
+    <?php if (get_theme_option('Homepage Text')): ?>
+    <?php echo get_theme_option('Homepage Text'); ?>
+    <?php endif; ?>
 </div>
 
 <div class="news">
@@ -35,16 +35,12 @@
   <p class="view-items-link"><a href="">lees meer</a></p> 
 </div>
 
-
-
-<div class="icon"><img src="<?php echo img('icon3.jpeg');?>"><div class='icon-title-box'><h2><a href="">Laboratory for text editing</a></h2></div></div>
-<div class="icon"><img src="<?php echo img('icon2.jpeg');?>"><div class='icon-title-box'><h2><a href="">Ex Cathedra project</a></h2></div></div>
-<div class="icon"><img src="<?php echo img('icon1.jpeg');?>"><div class='icon-title-box'><h2><a href="">Conferences</a></h2></div></div>
-<div class="icon"><img src="<?php echo img('icon2.jpeg');?>"><div class='icon-title-box'><h2><a href="">Lectures</a></h2></div></div>
-<div class="icon"><img src="<?php echo img('icon1.jpeg');?>"><div class='icon-title-box'><h2><a href="">Lectio Chair</a></h2></div></div>
-<div class="icon"><img src="<?php echo img('icon2.jpeg');?>"><div class='icon-title-box'><h2><a href="">Lectio Series</a></h2></div></div>
-
-
+<div class="icon"><img src="<?php echo img('icon3.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('laboratory-for-text-editing');?>">Laboratory for Text Editing</a></h2></div></div>
+<div class="icon"><img src="<?php echo img('icon1.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('conferences');?>">Conferences</a></h2></div></div>
+<div class="icon"><img src="<?php echo img('icon1.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('lectio-chair');?>">Lectio Chair</a></h2></div></div>
+<div class="icon"><img src="<?php echo img('icon2.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('magister-dixit-project');?>">Magister Dixit Project</a></h2></div></div>
+<div class="icon"><img src="<?php echo img('icon2.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('lectures');?>">Lectures</a></h2></div></div>
+<div class="icon"><img src="<?php echo img('icon2.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('lectio-series');?>">Lectio Series</a></h2></div></div>
 
 <?php fire_plugin_hook('public_content_top', array('view'=>$this)); ?>
 
