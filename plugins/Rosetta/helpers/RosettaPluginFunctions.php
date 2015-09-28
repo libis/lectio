@@ -152,10 +152,13 @@ function rosetta_admin_form($item){
    
     <br><br>
     <?php endif;?>
-
-    <label>Search rosetta (case sensitive)</label>
+    <label><b>PID</b></label>
+    <p class="explanation">Just fill in the pid (if known).</p>    
+    <Input type = 'text' Name ='known-pid' value= ''>
+    <br><br>
+    <label>Search for child objects (case sensitive)</label>
 	<br>
-    <input name='fileUrl' id='fileUrl' type='text' class='fileinput' />
+    <input name='fileUrl' placeholder='IE2710861' id='fileUrl' type='text' class='fileinput' />
     <button style="float:none;" class="rosetta-search">Search</button>
     <br><br>
     <div id="wait" style="display:none;">Please wait, this might take a few seconds.</div>

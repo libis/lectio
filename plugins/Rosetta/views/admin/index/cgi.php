@@ -23,11 +23,11 @@
         
         $list_images = json_decode($list);    
         $array = (array)$list_images;
-        $list_images= (array)$array[$_GET['search']];
+        $first = key($array);
+        $list_images= (array)$array[$first];
         var_dump($list_images);
         if(sizeof($list_images) > 1):
-            foreach ($list_images as $key => $value):
-                
+            foreach ($list_images as $key => $value):                
                 $html .="<div class='rosetta_image child'><img alt='".$value."' src='".$base_url."/".$key."'/><Input type = 'Radio' Name ='pid' value= '".$key."'>
                 </div>"; 
             endforeach;

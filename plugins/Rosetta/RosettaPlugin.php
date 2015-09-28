@@ -110,18 +110,30 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
             return;
         }
         
-        if ($post['pid'] == null) {
-            return;
-        }
-
         $item = $args['record'];
         $post = $_POST;
+        
+        if ($post['known-pid']) {
+            //save to db
+            $obj = new RosettaObject;
+            $obj->item_id = $item->id;
+            $obj->pid = $post['known-pid'];
+            $obj->save();
+        
+        }
+        if ($post['pid']) {
+            //save to db
+            $obj = new RosettaObject;
+            $obj->item_id = $item->id;
+            $obj->pid = $post['pid'];
+            $obj->save();
+        }
+        
+        
 
-        //save to db
-        $obj = new RosettaObject;
-        $obj->item_id = $item->id;
-        $obj->pid = $post['pid'];
-        $obj->save();
+        
+
+        
     }
     
     public function hookDefineAcl($args)
