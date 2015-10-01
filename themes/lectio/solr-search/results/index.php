@@ -50,8 +50,13 @@
 
       </li>
     <?php endforeach; ?>
+      
+    <?php if(SolrSearch_Helpers_Facet::parseFacets()):?>
+      <li><a href="<?php echo url('solr-search?q='.$_GET['q']) ?>">Remove all filters</a></li>
+    <?php endif;?>  
 
   </ul>
+    
 
 </div>
 
