@@ -529,7 +529,6 @@ ul {
 }
 
 #solr-results .item-metadata{
-    float:left;
     overflow: hidden;
 }
 
@@ -545,6 +544,7 @@ ul {
 #solr-results table td{
     border:none;
     padding:10px 20px 10px 0;
+    vertical-align: top;
 }
 
 #solr-results table tr{

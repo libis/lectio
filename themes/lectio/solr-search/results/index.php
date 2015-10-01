@@ -16,6 +16,7 @@
 
 <h1><?php echo __('Search the Collection'); ?></h1>
 
+<?php echo libis_get_simple_page_content('search-help');?>
 
 <!-- Search form. -->
 <div class="solr">
@@ -153,17 +154,66 @@
             <div class="item-description">
                 <?php echo $description; ?>
             </div>
-            <?php endif; ?>
+            <?php endif; ?>           
+           
 
-            <table class="show-table browse-table">    
+            <table class="show-table browse-table">   
+            <?php if ($text = metadata('item', array('Dublin Core', 'Subject'),array('delimiter'=>', '))): ?>
+            <tr><td>
+                <b>Subject</b>    
+            </td><td> 
+                <?php echo $text; ?>
+            </td></tr>
+            <?php endif; ?>
+            
+            <?php if ($text = metadata('item', array('Dublin Core', 'Source'),array('delimiter'=>', '))): ?>
+            <tr><td>
+                <b>Source</b>    
+            </td><td> 
+                <?php echo $text; ?>
+            </td></tr>
+            <?php endif; ?>
+            
+            <?php if ($text = metadata('item', array('Dublin Core', 'Contributor'),array('delimiter'=>', '))): ?>
+            <tr><td>
+                <b>Contributor</b>    
+            </td><td> 
+                <?php echo $text; ?>
+            </td></tr>
+            <?php endif; ?>
+            
+            <?php if ($text = metadata('item', array('Dublin Core', 'Date'),array('delimiter'=>', '))): ?>
+            <tr><td>
+                <b>Date</b>    
+            </td><td> 
+                <?php echo $text; ?>
+            </td></tr>
+            <?php endif; ?>
+            
+            <?php if ($text = metadata('item', array('Dublin Core', 'Type'),array('delimiter'=>', '))): ?>
+            <tr><td>
+                <b>Type</b>
+            </td><td> 
+                <?php echo $text; ?>
+            </td></tr>
+            <?php endif; ?>
+            
+            <?php if ($text = metadata('item', array('Dublin Core', 'Coverage'),array('delimiter'=>', '))): ?>
+            <tr><td>
+                <b>Coverage</b>    
+            </td><td> 
+                <?php echo $text; ?>
+            </td></tr>
+            <?php endif; ?>
+            
             <?php if ($names = metadata('item', array('Item Type Metadata', 'Names'),array('delimiter'=>', '))): ?>    
                 <tr><td>
                     <b>Names</b>
                 </td><td>      
                 <?php echo $names; ?>
                 </td></tr>
-
-            <?php endif; ?>   
+            <?php endif; ?>           
+            
 
             <?php if ($period = metadata('item', array('Item Type Metadata', 'Period'),array('delimiter'=>', '))): ?>
             <tr><td>

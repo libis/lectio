@@ -24,3 +24,12 @@ function libis_get_events($tag){
     <?php endforeach;
 }
 
+function libis_get_simple_page_content($title) {
+    $page = get_record('SimplePagesPage', array('title' => $title));
+    if($page):
+        return $page->text;
+    else:
+        return false;
+    endif;
+}
+
