@@ -197,6 +197,10 @@ class Omeka_View_Helper_Shortcodes extends Zend_View_Helper_Abstract
         if (isset($args['collection'])) {
             $params['collection'] = $args['collection'];
         }
+        
+        if (isset($args['item_type'])) {
+            $params['item_type'] = $args['item_type'];
+        }
 
         if (isset($args['tags'])) {
             $params['tags'] = $args['tags'];
