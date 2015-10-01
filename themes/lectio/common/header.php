@@ -35,6 +35,7 @@
         'vendor/jquery-accessibleMegaMenu',
         'vendor/respond',
         'jquery-extra-selectors',
+        'jquery.cycle2.min',
         'seasons',
         'globals'
     )); 
@@ -60,12 +61,9 @@
             </div>
             <?php fire_plugin_hook('public_header', array('view'=>$this)); ?>
         </header>
-
-       
-
         
-<div class="header-image">
-    	&nbsp;
+<div  id="gallery" class="header-image cycle-slideshow" data-cycle-slides="div" >
+    <div style="background-image:url(<?php echo img('bg.jpeg');?>)"></div>
 </div>
 
         <div id="content" role="main" tabindex="-1">
