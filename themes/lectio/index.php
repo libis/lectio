@@ -7,32 +7,13 @@
 </div>
 
 <div class="news">
-  <h2>News</h2>
-  <div class="news-item">	
-  <span class="date">15/10/2015</span> - <h3><?php //echo link_to($item, 'show', strip_formatting($title)); ?><a href="">Mauris ut magna porttitor nunc pulvinar iaculis</a></h3>
-  </div>	
+    <h2>News</h2>
+    <?php echo libis_get_news('home');?>
+    <p class="view-items-link"><a href="<?php echo url('solr-search?q=test&facet=itemtype:"News"');?>">read more</a></p> 
 
-  <div class="news-item">		
-  <span class="date">15/10/2015</span> - <h3><?php //echo link_to($item, 'show', strip_formatting($title)); ?><a href="">Donec bibendum neque sed mauris dictum, et maximus leo posuere</a></h3>
-  </div>
-
-  <div class="news-item">	
-  <span class="date">15/10/2015</span> - <h3><?php //echo link_to($item, 'show', strip_formatting($title)); ?><a href="">Mauris ut magna porttitor nunc pulvinar iaculis</a></h3>
- 
-  </div>
-  <p class="view-items-link"><a href="">lees meer</a></p> 
-
-  <h2>Events</h2>
-  <div class="event-item">	
-  <span class="date">15/10/2015</span> - <h3><?php //echo link_to($item, 'show', strip_formatting($title)); ?><a href="">Test Event 1</a></h3>
-  </div>
-  <div class="event-item"> 
-  <span class="date">15/10/2015</span> - <h3><?php //echo link_to($item, 'show', strip_formatting($title)); ?><a href="">Test Event 2</a></h3>
-  </div>
-  <div class="event-item"> 
-  <span class="date">15/10/2015</span> - <h3><?php //echo link_to($item, 'show', strip_formatting($title)); ?><a href="">Test Event 3</a></h3>
-  </div>
-  <p class="view-items-link"><a href="">lees meer</a></p> 
+    <h2>Events</h2>
+    <?php echo libis_get_events('home');?>
+    <p class="view-items-link"><a href="<?php echo url('solr-search?q=test&facet=itemtype:"Event"');?>">read more</a></p> 
 </div>
 
 <div class="icon"><img src="<?php echo img('icon3.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('laboratory-for-text-editing');?>">Laboratory for Text Editing</a></h2></div></div>
