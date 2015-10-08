@@ -27,7 +27,7 @@
         echo array_key_exists('q', $_GET) ? $_GET['q'] : '';
       ?>" />
     </span>
-    <a class="search-help" href="">&RightTeeArrow; Search tips</a>  
+    <a class="search-help" href="<?php echo url('search-help'); ?>">&RightTeeArrow; Search tips</a>  
   </form>
     
 </div>
