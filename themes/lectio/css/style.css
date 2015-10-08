@@ -1766,6 +1766,10 @@
   .autumn a:link {
     color: #86443C;
   }
+  
+  #primary a{
+      color: #065C81;
+  }
   /* line 1472, sass/_screen.scss */
   .autumn a:visited {
     color: #86443C;
@@ -2190,10 +2194,8 @@
   /* !---------- Project --------- */
   /* line 260, sass/_screen_768.scss */
   .page .project {
-    width: 64.10256%;
+    width: 40.10256%;
     float: left;
-    margin-right: 7.69231%;
-    display: inline;
   }
 
   /* line 264, sass/_screen_768.scss */
@@ -2226,8 +2228,6 @@
 
   /* line 289, sass/_screen_768.scss */
   .page #primary, .show #primary, .exhibit-item-show #primary {
-    width: 73.58491%;
-    float: left;
     margin-right: 5.66038%;
     display: inline;
     margin-right: 0;
