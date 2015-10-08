@@ -552,6 +552,7 @@ ul {
 #solr-results table{    
     width:95%;
     font-size:0.9em;
+    margin:0;
 }
 
 #solr-results table td{
