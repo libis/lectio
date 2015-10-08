@@ -98,7 +98,7 @@
 
   /* line 90, sass/_screen.scss */
   p, ol, ul {
-    margin-bottom: 1.71429em;
+    margin-bottom: 1em;
   }
   /* line 93, sass/_screen.scss */
   p:only-child, p:last-child, ol:only-child, ol:last-child, ul:only-child, ul:last-child {
@@ -106,8 +106,7 @@
   }
 
   /* line 96, sass/_screen.scss */
-  ul {
-    list-style: none;
+  ul {    
     padding-left: 1.5em;
   }
 
@@ -790,6 +789,17 @@
   #content > .element {
     border-bottom: 0;
   }
+  
+  .element-text {
+    overflow:hidden;
+    margin-bottom:10px !important;
+  }
+  
+  .element-link{
+    font-family: "Source Sans Pro",sans-serif;
+    font-weight:bold;
+  }
+  
   /* line 644, sass/_screen.scss */
   #content .element-set div {
     margin-bottom: 0;
@@ -1134,7 +1144,6 @@
   }
   
   .element {
-      clear:both;
       margin-bottom:10px !important;
   }
   
@@ -1707,8 +1716,8 @@
 
   /* !---------- Simple Pages ---------- */
   /* line 1422, sass/_screen.scss */
-  .simple-pages-navigation {
-    list-style: none;
+  .simple-pages-navigation ul {
+    list-style: none !important;
   }
 
   /* line 1425, sass/_screen.scss */

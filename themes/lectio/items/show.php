@@ -17,18 +17,7 @@
     
     <!-- rosetta items and other plugin output -->
     <?php fire_plugin_hook('public_items_show', array('view' => $this, 'item' => $item)); ?>
-    
-    
-
-    <!-- The following prints a list of all tags associated with the item -->
-    <?php if (metadata('item', 'has tags')): ?>
-    <div id="item-tags" class="element">
-        <h2><?php echo __('Tags'); ?></h2>
-        <div class="element-text"><?php echo tag_string('item'); ?></div>
-    </div>
-    <?php endif;?>
-
-
+  
 </aside>
 
 <div id="primary">
@@ -37,9 +26,7 @@
     <?php echo files_for_item(array('imageSize' => 'fullsize')); ?>
     <?php endif; ?>
     
-    <?php echo all_element_texts('item'); ?>
-    
-    
+    <?php echo all_element_texts('item'); ?> 
 
 </div><!-- end primary -->
 
