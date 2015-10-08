@@ -1732,6 +1732,11 @@
   #simple-pages-breadcrumbs {
     margin-bottom: 1.71429em;
   }
+  
+  .simple-page #primary img{
+      margin-right:15px;
+      margin-bottom:15px;
+  }
 
   /* !---------- Other Plugin Styles ---------- */
   /* line 1444, sass/_screen.scss */
