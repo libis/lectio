@@ -438,11 +438,24 @@ ul {
 }
 
 /* line 9, sass/results.scss */
+#solr-form-div,#solr-applied-facets{
+    margin-bottom:1em !important;
+}
+
 #solr-search-form {
   overflow: hidden;
   box-sizing: border-box;
   max-width:400px;
 }
+
+#solr-search-form .search-help{
+    color:#065c81;
+    font-size:0.9em;
+    padding:10px 0;
+    display:block;
+    font-weight:bold;
+}
+
 /* line 13, sass/results.scss */
 #solr-search-form span.float-wrap {
   display: block;

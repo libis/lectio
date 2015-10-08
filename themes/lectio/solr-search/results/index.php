@@ -16,10 +16,10 @@
 
 <h1><?php echo __('Search the Collection'); ?></h1>
 
-<?php echo libis_get_simple_page_content('search-help');?>
+<?php //echo libis_get_simple_page_content('search-help');?>
 
 <!-- Search form. -->
-<div class="solr">
+<div id="solr-form-div">
   <form id="solr-search-form">
     <input type="submit" value="Search" />
     <span class="float-wrap">
@@ -27,7 +27,9 @@
         echo array_key_exists('q', $_GET) ? $_GET['q'] : '';
       ?>" />
     </span>
+    <a class="search-help" href="">&RightTeeArrow; Search tips</a>  
   </form>
+    
 </div>
 
 
@@ -148,19 +150,12 @@
         </div>
         <?php endif; ?>  
         
-        <div class='item-metadata'>
-            <!-- Metadata --> 
-            <?php if ($description = metadata('item', array('Dublin Core', 'Description'), array('snippet'=>250))): ?>
-            <div class="item-description">
-                <?php echo $description; ?>
-            </div>
-            <?php endif; ?>           
-           
+        <div class='item-metadata'>           
 
-            <table class="show-table browse-table">   
-            <?php if ($text = metadata('item', array('Dublin Core', 'Subject'),array('delimiter'=>', '))): ?>
+            <table class="sho-table browse-table">           
+            <?php if ($text = metadata('item', array('Dublin Core', 'Source'),array('delimiter'=>', '))): ?>
             <tr><td>
-                <b>Subject</b>    
+                <b>Source</b>    
             </td><td> 
                 <?php echo $text; ?>
             </td></tr>
@@ -172,15 +167,14 @@
             </td><td> 
                 <?php echo $text; ?>
             </td></tr>
-            <?php endif; ?>
+            <?php endif; ?> 
             
-            <?php if ($text = metadata('item', array('Dublin Core', 'Contributor'),array('delimiter'=>', '))): ?>
+            <?php if ($text = metadata('item', array('Item Type Metadata', 'Call number'),array('delimiter'=>', '))): ?>
             <tr><td>
-                <b>Contributor</b>    
+                <b>Call number</b>    
             </td><td> 
                 <?php echo $text; ?>
             </td></tr>
-            <?php endif; ?>
             
             <?php if ($text = metadata('item', array('Dublin Core', 'Date'),array('delimiter'=>', '))): ?>
             <tr><td>
@@ -190,46 +184,7 @@
             </td></tr>
             <?php endif; ?>
             
-            <?php if ($text = metadata('item', array('Dublin Core', 'Type'),array('delimiter'=>', '))): ?>
-            <tr><td>
-                <b>Type</b>
-            </td><td> 
-                <?php echo $text; ?>
-            </td></tr>
-            <?php endif; ?>
-            
-            <?php if ($text = metadata('item', array('Dublin Core', 'Coverage'),array('delimiter'=>', '))): ?>
-            <tr><td>
-                <b>Coverage</b>    
-            </td><td> 
-                <?php echo $text; ?>
-            </td></tr>
-            <?php endif; ?>
-            
-            <?php if ($names = metadata('item', array('Item Type Metadata', 'Names'),array('delimiter'=>', '))): ?>    
-                <tr><td>
-                    <b>Names</b>
-                </td><td>      
-                <?php echo $names; ?>
-                </td></tr>
-            <?php endif; ?>           
-            
-
-            <?php if ($period = metadata('item', array('Item Type Metadata', 'Period'),array('delimiter'=>', '))): ?>
-            <tr><td>
-                <b>Period</b>    
-            </td><td> 
-                <?php echo $period; ?>
-            </td></tr>
-            <?php endif; ?>
-
-            <?php if ($icon = metadata('item', array('Item Type Metadata', 'Iconographic material'),array('delimiter'=>', '))): ?>
-            <tr><td>
-                <b>Iconographic material</b>    
-            </td><td> 
-                <?php echo $icon; ?>
-            </td></tr>
-            <?php endif; ?>   
+          
             </table>
         </div>
     </div>
