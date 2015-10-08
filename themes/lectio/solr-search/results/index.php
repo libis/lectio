@@ -112,11 +112,10 @@
     <?php echo $results->response->numFound; ?> results
   </h2>
 
-  <?php foreach ($results->response->docs as $doc): ?>
+  <?php foreach ($results->response->docs as $doc):?>
 
     <!-- Document. -->
     <div class="result">
-
       <!-- Header. -->
       <div class="result-header">
 
@@ -138,16 +137,15 @@
         
       </div>
 
-
       <!-- Image. -->
       <?php $item = get_record_by_id('item',preg_replace ( '/[^0-9]/', '', $doc->__get('id')));?>                                         
         <?php set_current_record('item',$item); ?>    
         <?php $images = rosetta_get_images($item);?>
         <!-- Document. -->
         <?php if ($images): ?>
-        <div class="item-img">
-            <a href="<?php echo record_url($item) ?>"><img src="<?php echo $images[0]; ?>"></a>
-        </div>
+            <div class="item-img">
+                <a href="<?php echo record_url($item) ?>"><img src="<?php echo $images[0]; ?>"></a>
+            </div>
         <?php endif; ?>  
         
         <div class='item-metadata'>           
@@ -161,20 +159,13 @@
             </td></tr>
             <?php endif; ?>
             
-            <?php if ($text = metadata('item', array('Dublin Core', 'Source'),array('delimiter'=>', '))): ?>
-            <tr><td>
-                <b>Source</b>    
-            </td><td> 
-                <?php echo $text; ?>
-            </td></tr>
-            <?php endif; ?> 
-            
             <?php if ($text = metadata('item', array('Item Type Metadata', 'Call number'),array('delimiter'=>', '))): ?>
             <tr><td>
                 <b>Call number</b>    
             </td><td> 
                 <?php echo $text; ?>
             </td></tr>
+            <?php endif; ?>
             
             <?php if ($text = metadata('item', array('Dublin Core', 'Date'),array('delimiter'=>', '))): ?>
             <tr><td>
@@ -188,7 +179,7 @@
             </table>
         </div>
     </div>
-
+    
   <?php endforeach; ?>
 
 </div>
