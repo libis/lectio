@@ -1,7 +1,7 @@
 <div class="element-set">
 <?php $exceptions = array('Source','Type','Coverage'); ?>
     
-    <div id="<?php echo text_to_id(html_escape("$setName $elementName")); ?>" class="element">
+    <div  class="element">
         
         <?php if ($text = metadata('item', array('Dublin Core', 'Subject'),array('delimiter'=>'; '))): ?>
         <h3>Subject</h3>
