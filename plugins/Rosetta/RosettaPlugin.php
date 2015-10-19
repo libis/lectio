@@ -180,7 +180,11 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
             
             $html = '<div id="rosetta_objects" class="element">';
             foreach($objects as $object):
-                $html .= '<a href="'.$object->get_viewer().'"><img src="'.$object->get_thumb().'"></a>';
+                if(isset($args['IE-link'])):
+                    $html .= '<a href="'.$args['IE-link'].'"><img src="'.$object->get_thumb().'"></a>';
+                else:                    
+                    $html .= '<a href="'.$object->get_viewer().'"><img src="'.$object->get_thumb().'"></a>';
+                endif;
             endforeach;
             $html .= '</div>';
             echo $html;

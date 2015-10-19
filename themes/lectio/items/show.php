@@ -16,7 +16,11 @@
     <?php endif; ?>
     
     <!-- rosetta items and other plugin output -->
-    <?php fire_plugin_hook('public_items_show', array('view' => $this, 'item' => $item)); ?>
+    <?php if ($text = metadata('item', array('Item Type Metadata', 'Images'))): ?>
+        <?php fire_plugin_hook('public_items_show', array('view' => $this, 'item' => $item, 'IE-link'=> $text)); ?>
+    <?php else: ?>
+        <?php fire_plugin_hook('public_items_show', array('view' => $this, 'item' => $item)); ?>
+    <?php endif;?>
   
 </aside>
 
