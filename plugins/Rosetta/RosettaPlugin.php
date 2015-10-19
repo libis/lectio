@@ -129,11 +129,6 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
             $obj->save();
         }
         
-        
-
-        
-
-        
     }
     
     public function hookDefineAcl($args)
@@ -178,14 +173,14 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookPublicItemsShow($args)
     {
         if (array_key_exists('item', $args)) {
-            $images = rosetta_get_images($args['item']);
-            if(!$images):
+            $objects = rosetta_get_rosetta_objects($args['item']);
+            if(!$objects):
                 return;
             endif;
             
             $html = '<div id="rosetta_objects" class="element">';
-            foreach($images as $image):
-                $html .= '<img src="'.$image.'">';
+            foreach($objects as $object):
+                $html .= '<a href="'.$object->get_viewer().'"><img src="'.$object->get_thumb().'"></a>';
             endforeach;
             $html .= '</div>';
             echo $html;

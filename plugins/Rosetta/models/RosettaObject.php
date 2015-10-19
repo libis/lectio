@@ -44,6 +44,10 @@ class RosettaObject extends Omeka_Record_AbstractRecord implements Zend_Acl_Reso
         return get_option('rosetta_resolver').$this->pid."/stream?quality=HIGH";        
     }
     
+    public function get_viewer(){
+        return "http://depot.lias.be/delivery/DeliveryManagerServlet?dps_pid=".$this->pid."&mirador=true"; 
+    }
+    
     /**
      * Required by Zend_Acl_Resource_Interface.
      *
