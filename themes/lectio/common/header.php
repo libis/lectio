@@ -63,7 +63,8 @@
         </header>
         
 <div  id="gallery" class="header-image cycle-slideshow" data-cycle-slides="div" >
-    <div style="background-image:url(<?php echo img('bg2.jpeg');?>)"></div>
+    <div style="background-image:url(<?php echo img('bg3.jpeg');?>)"></div>
+	<div style="background-image:url(<?php echo img('bg2.jpeg');?>)"></div>
     <div style="background-image:url(<?php echo img('bg.jpeg');?>)"></div>    
 </div>
 
