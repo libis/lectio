@@ -63,9 +63,9 @@
         </header>
         
 <div  id="gallery" class="header-image cycle-slideshow" data-cycle-slides="div" >
-    <div style="background-image:url(<?php echo img('bg.jpeg');?>)"></div>
-    <div style="background-image:url(<?php echo img('bg2.jpeg');?>)"></div>
-    <div style="background-image:url(<?php echo img('bg3.jpeg');?>)"></div> 
+    <div style="background-image:url(<?php echo WEB_THEME.'/lectio/images/bg.jpeg';?>)"></div>
+    <div style="background-image:url(<?php echo WEB_THEME.'/lectio/images/bg2.jpeg';?>)"></div>
+    <div style="background-image:url(<?php echo WEB_THEME.'/lectio/images/bg3.jpeg';?>)"></div> 
 </div>
 
         <div id="content" role="main" tabindex="-1">
