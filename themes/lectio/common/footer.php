@@ -11,7 +11,7 @@
             <?php endif; ?>
         </div>
 
-        <a href="http://kuleuven.be"><img src='<?php echo img('KULeuven-logo.png') ?>'></a> 
+        <?php echo libis_get_simple_page_content('footer-logos');?>
 		
 
     <?php fire_plugin_hook('public_footer', array('view' => $this)); ?>
