@@ -16,12 +16,7 @@
     <p class="view-items-link"><a href="<?php echo url('solr-search?q=test&facet=itemtype:"Event"');?>">read more</a></p> 
 </div>
 
-<div class="icon"><img src="<?php echo img('icon3.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('laboratory-for-text-editing');?>">Laboratory for Text Editing</a></h2></div></div>
-<div class="icon"><img src="<?php echo img('icon1.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('conferences');?>">Conferences</a></h2></div></div>
-<div class="icon"><img src="<?php echo img('icon1.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('lectio-chair');?>">Lectio Chair</a></h2></div></div>
-<div class="icon"><img src="<?php echo img('icon2.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('magister-dixit-project');?>">Magister Dixit Project</a></h2></div></div>
-<div class="icon"><img src="<?php echo img('icon2.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('lectures');?>">Lectures</a></h2></div></div>
-<div class="icon"><img src="<?php echo img('icon2.jpeg');?>"><div class='icon-title-box'><h2><a href="<?php echo url('lectio-series');?>">Lectio Series</a></h2></div></div>
+<?php echo libis_get_simple_page_content('home-icons');?>
 
 <?php fire_plugin_hook('public_content_top', array('view'=>$this)); ?>
 
