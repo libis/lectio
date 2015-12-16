@@ -62,11 +62,7 @@
             <?php fire_plugin_hook('public_header', array('view'=>$this)); ?>
         </header>
         
-<div  id="gallery" class="header-image cycle-slideshow" data-cycle-slides="div" >
-    <div style="background-image:url(<?php echo WEB_THEME.'/lectio/images/bg.jpeg';?>)"></div>
-    <div style="background-image:url(<?php echo WEB_THEME.'/lectio/images/bg2.jpeg';?>)"></div>
-    <div style="background-image:url(<?php echo WEB_THEME.'/lectio/images/bg3.jpeg';?>)"></div> 
-</div>
+        <?php echo caroussel_show();?>
 
         <div id="content" role="main" tabindex="-1">
             <?php
