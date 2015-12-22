@@ -4,7 +4,8 @@
 <!-- If the item belongs to a collection, the following creates a link to that collection. -->
     <?php if (metadata('item', 'Collection Name')): ?>
     <div id="collection" class="element">
-        <h2><?php echo __('Collection'); ?>, <?php echo link_to_collection_for_item(); ?></h2>
+    <!-- voorlopig link_to_collection_for_item() verwijdert tot issue 28 is opgelost -->
+        <h2><?php echo __('Collection'); ?>, <?php echo metadata('item', 'Collection Name'); ?></h2>
     </div>
     <?php endif; ?>
 <aside id="sidebar">    

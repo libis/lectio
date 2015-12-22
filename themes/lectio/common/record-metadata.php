@@ -3,8 +3,8 @@
     
     <div  class="element">
         
-        <?php if ($text = metadata('item', array('Dublin Core', 'Subject'),array('delimiter'=>'; '))): ?>
-        <h3>Subject</h3>
+        <?php if ($text = metadata('item', array('Dublin Core', 'Title'),array('delimiter'=>'; '))): ?>
+        <h3>Title</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
         
@@ -23,12 +23,12 @@
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
         
-        <?php if ($text = metadata('item', array('Item Type Metadata', 'Student'),array('delimiter'=>'; '))): ?>
+        <?php if ($text = metadata('item', array('Dublin Core', 'Creator'),array('delimiter'=>'; '))): ?>
         <h3>Student</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
         
-        <?php if ($text = metadata('item', array('Item Type Metadata', 'Professor'),array('delimiter'=>'; '))): ?>
+        <?php if ($text = metadata('item', array('Dublin Core', 'Mediator'),array('delimiter'=>'; '))): ?>
         <h3>Professor</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
@@ -68,7 +68,7 @@
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
         
-        <?php if ($text = metadata('item', array('Item Type Metadata', 'Notes'),array('delimiter'=>'; '))): ?>
+        <?php if ($text = metadata('item', array('Dublin Core', 'Abstract'),array('delimiter'=>'; '))): ?>
         <h3>Notes</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
@@ -84,9 +84,6 @@
         <?php if ($text = metadata('item', array('Item Type Metadata', 'LIMO'))): ?>
         <a class='element-link' href="<?php echo $text;?>">&raquo; LIMO</a><br>
         <?php endif; ?>
-        
-        
-            
         
     </div><!-- end element -->
     
