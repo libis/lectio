@@ -33,7 +33,7 @@
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
         
-        <?php if ($text = metadata('item', array('Dublin Core', 'Contributor'),array('delimiter'=>'; '))): ?>
+        <?php if ($text = metadata('item', array('Dublin Core', 'Contributor'),array('delimiter'=>'<br/>'))): ?>
         <h3>Contributor</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
@@ -43,36 +43,36 @@
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
         
-        <?php if ($text = metadata('item', array('Item Type Metadata', 'Content'),array('delimiter'=>'; '))): ?>
+        <?php if ($text = metadata('item', array('Item Type Metadata', 'Content'),array('delimiter'=>'<br/>'))): ?>
         <h3>Content</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
         
-        <?php if ($text = metadata('item', array('Dublin Core', 'Table Of Contents'),array('delimiter'=>'; '))): ?>
+        <?php if ($text = metadata('item', array('Item Type Metadata', 'Table of contents'),array('delimiter'=>'<br />'))): ?>
         <h3>Details</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
         
-        <?php if ($text = metadata('item', array('Dublin Core', 'Alternative Title'),array('delimiter'=>'; '))): ?>
+        <?php if ($text = metadata('item', array('Item Type Metadata', 'Other titles'),array('delimiter'=>'; '))): ?>
         <h3>Other titles</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
         
-        <?php if ($text = metadata('item', array('Dublin Core', 'Description'),array('delimiter'=>'; '))): ?>
+        <?php if ($text = metadata('item', array('Dublin Core', 'Description'),array('delimiter'=>'<br />'))): ?>
         <h3>Description</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>        
         
-        <?php if ($text = metadata('item', array('Item Type Metadata', 'Illustrations'),array('delimiter'=>'; '))): ?>
+        <?php if ($text = metadata('item', array('Item Type Metadata', 'Illustrations'),array('delimiter'=>'<br />'))): ?>
         <h3>Illustrations</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
         
-        <?php if ($text = metadata('item', array('Dublin Core', 'Abstract'),array('delimiter'=>'; '))): ?>
+        <?php if ($text = metadata('item', array('Item Type Metadata', 'Notes'),array('delimiter'=>'<br />'))): ?>
         <h3>Notes</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
-        
+               
         <?php if ($text = metadata('item', array('Item Type Metadata', 'Images'))): ?>
         <a class='element-link' href="<?php echo $text;?>">&raquo; IMAGES</a><br>
         <?php endif; ?>
