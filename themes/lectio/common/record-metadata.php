@@ -28,7 +28,7 @@
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
         
-        <?php if ($text = metadata('item', array('Dublin Core', 'Mediator'),array('delimiter'=>'; '))): ?>
+        <?php if ($text = metadata('item', array('Item Type Metadata', 'Professor'),array('delimiter'=>'; '))): ?>
         <h3>Professor</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
