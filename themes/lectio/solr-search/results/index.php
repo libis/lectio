@@ -139,12 +139,11 @@
 
       <!-- Image. -->
       <?php $item = get_record_by_id('item',preg_replace ( '/[^0-9]/', '', $doc->__get('id')));?>                                         
-        <?php set_current_record('item',$item); ?>    
-        <?php $images = rosetta_get_images($item);?>
+        <?php set_current_record('item',$item); ?>
         <!-- Document. -->
-        <?php if ($images): ?>
+        <?php if (item_image('thumbnail')): ?>
             <div class="item-img">
-                <a href="<?php echo record_url($item) ?>"><img src="<?php echo $images[0]; ?>"></a>
+                <a href="<?php echo record_url($item) ?>"><?php echo item_image('thumbnail'); ?></a>
             </div>
         <?php endif; ?>  
         

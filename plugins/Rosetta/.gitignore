@@ -1,5 +1,7 @@
 /changelog.txt
+/db.ini
 /release.txt
+/archive
 /nbproject
 /install
 /.buildpath
@@ -8,6 +10,8 @@
 /BingSiteAuth.xml
 /.settings
 /_notes
+/tests/_notes
+/tests/cases/Globals/_notes
 /.project
 /error.txt
 /license.txt
@@ -173,25 +177,12 @@ pip-log.txt
 .coverage
 .tox
 
+#Translations
+*.mo
+
 #Mr Developer
 .mr.developer.cfg
 
 # Mac crap
 .DS_Store
 
-
-/application/tests/
-
-
-/themes/lectio/css/sass/
-/plugins/SolrSearch/views/shared/css/sass/
-/plugins/SolrSearch/solr-core/
-/db.ini
-/files/
-/themes/lectio/images/
-/themes/lectio/solr-search/css/sass/
-/plugins/Rosetta/nbproject/private/
-/plugins/Rosetta/nbproject/
-/application/logs/
-/plugins/SolrSearchOld/
-/plugins/RosettaOld/

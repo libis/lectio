@@ -7,50 +7,6 @@
 */
 
 /**
- * returns rosetta objects of an item
- * 
- * @param type $item
- * @return type or boolean
- */
-function rosetta_get_rosetta_objects($item){
-    $objects = get_db()->getTable('RosettaObject')->findRosettaObjectByItem($item,false);   
-    if($objects){
-        return $objects;
-    }
-    else{
-        return false;
-    }
-}
-
-/**
- * returns an array of image urls to the rosetta obejcts belonging to an item
- * 
- * @param type $item
- * @param type $size
- * @return type
- */
-function rosetta_get_images($item,$size='thumbnail'){
-    
-    $objects = rosetta_get_rosetta_objects($item);
-    
-    if(!$objects):
-        return false;
-    endif;
-    
-    $images = array();
-    
-    foreach($objects as $object):
-        if($size == 'thumbnail'):
-            $images[] = $object->get_thumb();
-        elseif($size == 'high'):    
-            $images[] = $object->get_high();
-        endif;        
-    endforeach;        
-    
-    return $images;
-}
-
-/**
  * communicate with resolver
  * 
  * @param type $url
@@ -74,10 +30,33 @@ function rosetta_talk_resolver($url){
     $data = $http_response->getBody();  
     
     if($data):
-        return json_decode($data);
+        return $data;
     else:
         return false;
     endif;
+}
+
+/**
+ * communicate with resolver
+ * 
+ * @param type $url
+ * @return return array or boolean
+ */
+function rosetta_download_image($url){    
+    $data = rosetta_talk_resolver($url);     
+
+    //if no image can be created from data return false
+    if($image = @imagecreatefromstring($data)):
+        return $data;
+    else:
+        return false;
+    endif;
+}
+
+function rosetta_get_mime_type($file){
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $type = $finfo->buffer($file);
+    return $type;
 }
 
 /**
@@ -86,13 +65,16 @@ function rosetta_talk_resolver($url){
  * @param rosettaObject
  * @return array 
  */
-function rosetta_get_metadata($object){
-    $base_url = get_option('rosetta_resolver'); 
-    $url = $base_url."/".$object->pid."/metadata";
-    
+function rosetta_get_metadata($url){
+       
     if($data = rosetta_talk_resolver($url)): 
+        $data = json_decode($data);
         $data = (array)$data;
         $data = (array)$data[key($data)];
+        //if no metadata $data[0] is set with 'not found'
+        if(isset($data[0])):
+            return false;
+        endif;
         return $data;
     endif;       
     
@@ -105,28 +87,21 @@ function rosetta_get_metadata($object){
  * @param rosettaObject
  * @return array or boolean
  */
-function rosetta_get_list($object){
-    $base_url = get_option('rosetta_resolver');
-    
-    $url = $base_url."/".$object->pid."/list?quality=all";
-        
+function rosetta_get_list($url){
+           
     if($data = rosetta_talk_resolver($url)):
-        $list = array();
-        foreach ($data as $object):
-            $object = (array)$object;
-            $root = key($object);            
-            
-            foreach($object as $key=>$size):
-               $size = (array)$size; 
-               $list[$key] = array('pid'=>key($size),'label'=>$size[key($size)]);
-            endforeach;                    
-        endforeach;
-        
-        return $list;
-        
-    endif;       
-    
-    return false;
+        $data = json_decode($data);                
+        $array = (array)$data;
+        $first = key($array);
+        $list= (array)$array[$first];
+        if(sizeof($list) > 1):
+           return $list;
+        else:   
+            return false;
+        endif;
+    else:
+        return false;
+    endif;    
 }
 
 /**
@@ -136,23 +111,8 @@ function rosetta_get_list($object){
  * @return type
  */
 function rosetta_admin_form($item){
-    ob_start();
-    if(rosetta_item_has_rosetta_object($item)):?>
-    
-    <b>Digitool images currently associated with this item:</b>
-    <br>
-    <?php 
-        $objects = rosetta_get_rosetta_objects($item);
-        foreach($objects as $object):?>
-        <div class='rosetta_image'>
-            <img src="<?php echo $object->get_thumb();?>" />
-            <a href="<?php echo (url('rosetta/index/delete-confirm/' . $object->id));?>">Delete</a>
-        </div>
-        <?php endforeach;?>    
-   
-    <br><br>
-    <?php endif;?>
-    <label><b>PID</b></label>
+    ob_start();?>
+    <h2>Insert file with Rosetta ID</h2>
     <p class="explanation">Just fill in the pid (if known).</p>    
     <Input type = 'text' Name ='known-pid' value= ''>
     <br><br>
@@ -163,75 +123,26 @@ function rosetta_admin_form($item){
     <br><br>
     <div id="wait" style="display:none;">Please wait, this might take a few seconds.</div>
 
-    <div id="Pagination"></div>
-    <br style="clear:both;" />
-    <div id="Searchresult">
-    This content will be replaced when pagination inits.
-    </div>
+    <br style="clear:both;" />    
 
-    <!-- Container element for all the Elements that are to be paginated -->
-    <div id="hiddenresult" style="display:none;">
-        <div class="result">TEST</div>
+    <div id="result" >
+        <div class="result"></div>
     </div>
 
 
 	<script>
 	jQuery( document ).ready(function() {
-		jQuery('.rosetta-search').click(function(event) {
-			event.preventDefault();
-			jQuery('#Searchresult').hide('slow');
-			jQuery('#Pagination').hide('slow');
-			jQuery('#wait').show('slow');
+            jQuery('.rosetta-search').click(function(event) {
+                    event.preventDefault();
+                    jQuery('#Searchresult').hide('slow');
+                    jQuery('#wait').show('slow');
 
-			jQuery.get('<?php echo url("rosetta/index/cgi/");?>',{ search: jQuery('#fileUrl').val()} , function(data) {
-				jQuery('#wait').hide('slow');
-				jQuery('#hiddenresult').html(data);
-				initPagination();
-				pageselectCallback(0);
-				jQuery('#Pagination').show('slow');
-				jQuery('#Searchresult').show('slow');
-			});
-
-		});
-
-		jQuery('.digi-child').click(function(event) {
-			event.preventDefault();
-			jQuery('#wait').show('slow');
-			jQuery.get('<?php echo url("rosetta/index/childcgi/");?>',{ child: jQuery('.digi-child').val()} , function(data) {
-				jQuery('#wait').hide('slow');
-				jQuery('.result-child').html(data);
-			});
-
-		});
-
-		/**
-		* Callback function that displays the content.
-		*
-		* Gets called every time the user clicks on a pagination link.
-		*
-		* @param {int}page_index New Page index
-		* @param {jQuery} jq the container with the pagination links as a jQuery object
-		*/
-		function pageselectCallback(page_index, jq){
-			var new_content = jQuery('#hiddenresult div.result:eq('+page_index+')').clone();
-			jQuery('#Searchresult').empty().append(new_content);
-		                return false;
-		}
-
-		/**
-		* Callback function for the AJAX content loader.
-		*/
-		function initPagination() {
-			var num_entries = jQuery('#hiddenresult div.result').length;
-			// Create pagination element
-			jQuery("#Pagination").pagination(num_entries, {
-				num_edge_entries: 0,
-				num_display_entries: 5,
-				callback: pageselectCallback,
-			                    items_per_page:4
-			});
-		}
-                });
+                    jQuery.get('<?php echo url("rosetta/index/cgi/");?>',{ search: jQuery('#fileUrl').val()} , function(data) {
+                            jQuery('#wait').hide('slow');
+                            jQuery('#result').html(data);
+                    });
+            });		
+        });
 	</script>
 
 	<?php
@@ -239,58 +150,6 @@ function rosetta_admin_form($item){
 	ob_end_clean();
 
 	return $ht;
-}
-
-/**
-* Checks if item has a rosetta object
-* @param Item $item
-* @return true or false
-**/
-function rosetta_item_has_rosetta_object($item = null){
-    $objects = rosetta_get_rosetta_objects($item);
-    
-    if($objects){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
-
-/**
- * returns items that share a rosetta object
- * 
- * @param type $item
- * @param type $pid
- * @return items or boolean
- */
-function rosetta_find_items_with_same_pid($item=null,$pid=null){
-    
-    if($item == null){ return false;}
-
-    if($pid == null){
-        $objects = rosetta_get_rosetta_objects($item);
-             $pid = $objects[0]->pid;
-        }
-
-        $db = get_db();
-        //echo $object->pid;
-        $select = $db->query("SELECT item_id
-                FROM omeka_rosetta_objects
-                WHERE pid = '".$pid."'
-                ORDER BY item_id ASC
-        ");
-
-	$s_items = $select->fetchAll();
-
-	foreach($s_items as $s_item){
-            if($s_item['item_id'] != $item->id){
-                return $s_item['item_id'];
-            }
-	}
-
-	//if everything fails
-	return false;
 }
 
 /**
