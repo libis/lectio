@@ -5,7 +5,7 @@
     <?php if (metadata('item', 'Collection Name')): ?>
     <div id="collection" class="element">
     <!-- voorlopig link_to_collection_for_item() verwijdert tot issue 28 is opgelost -->
-        <h2><?php echo __('Collection'); ?>, <?php echo metadata('item', 'Collection Name'); ?></h2>
+        <h2><?php echo __('Collection'); ?>, <?php echo link_to_collection_for_item(metadata('item', 'Collection Name')); ?></h2>
     </div>
     <?php endif; ?>
 <aside id="sidebar">    
