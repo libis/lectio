@@ -463,9 +463,6 @@
     height: 2.57143em;
     display: inline-block;
     text-indent: -9999px;
-    -moz-box-shadow: rgba(0, 0, 0, 0.15) 0 0 10px;
-    -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0 0 10px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0 0 10px;
     position: relative;
   }
   /* line 376, sass/_screen.scss */
@@ -1839,7 +1836,6 @@
   }
   /* line 1531, sass/_screen.scss */
   .autumn #content .pagination_previous a, .autumn #content .pagination_next a {
-    background-color: #86443C;
   }
   /* line 1535, sass/_screen.scss */
   .autumn #content .pagination input[type=text] {
