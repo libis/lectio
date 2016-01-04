@@ -27,11 +27,7 @@
 
 <div id="primary">
 
-    <?php if ((get_theme_option('Item FileGallery') == 0) && metadata('item', 'has files')): ?>
-    <?php echo files_for_item(array('imageSize' => 'fullsize')); ?>
-    <?php endif; ?>
-    
-    <div class="element-set">
+<div class="element-set">
 <?php $exceptions = array('Source','Type','Coverage'); ?>
     
     <div  class="element">
@@ -106,8 +102,8 @@
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
                
-        <?php if ($text = metadata('item', array('Item Type Metadata', 'Images'))): ?>
-        <a class='element-link' href="<?php echo $text;?>">&raquo; IMAGES</a><br>
+        <?php if ($files = $item->Files): ?>         
+            <a class='element-link' href=" <?php echo file_display_url($files[0], 'original');?>">&raquo; IMAGES</a><br>
         <?php endif; ?>
  
         <?php if ($text = metadata('item', array('Item Type Metadata', 'PDF'))): ?>
