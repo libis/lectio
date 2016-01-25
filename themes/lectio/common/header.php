@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html class="<?php echo get_theme_option('Style Sheet'); ?>" lang="<?php echo get_html_lang(); ?>">
 <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
     <?php if ($description = option('description')): ?>
     <meta name="description" content="<?php echo $description; ?>">
     <?php endif; ?>
