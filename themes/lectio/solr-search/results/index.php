@@ -62,8 +62,8 @@
     
 
 </div>
-
-
+<div>
+    <?php echo pagination_links(); ?></div>
 <!-- Facets. -->
 <div id="solr-facets">
 
