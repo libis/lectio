@@ -755,8 +755,7 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    *behavior: url("../javascripts/boxsizing.htc");
-    
+    *behavior: url("../javascripts/boxsizing.htc");    
     *zoom: 1;
   }
   /* line 625, sass/_screen.scss */
@@ -2050,7 +2049,7 @@
   /* !---------- Pagination ---------- */
   /* line 149, sass/_screen_768.scss */
   .pagination {
-    float: left;
+    float: right;
   }
 
   /* line 153, sass/_screen_768.scss */
