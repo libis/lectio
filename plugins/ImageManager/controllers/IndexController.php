@@ -19,6 +19,11 @@ class ImageManager_IndexController extends Omeka_Controller_AbstractActionContro
     {
       
     }
+    
+    public function windowAction()
+    {
+      
+    }
 
     public function connectorAction()
     {

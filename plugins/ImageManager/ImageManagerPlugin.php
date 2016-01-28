@@ -78,6 +78,18 @@ class ImageManagerPlugin extends Omeka_Plugin_AbstractPlugin
                     )
 	    )
 	);
+        
+        $router = $args['router'];
+	$router->addRoute(
+	    'image-manager/window', 
+	    new Zend_Controller_Router_Route(
+	       "image-manager/window", 
+	        array('module' => 'image-manager',
+                      'controller' => 'index',
+                      'action' => 'window'
+                    )
+	    )
+	);
     }
     
     public function hookAdminHead(){        
@@ -87,7 +99,11 @@ class ImageManagerPlugin extends Omeka_Plugin_AbstractPlugin
         queue_css_file('elfinder.min');
         //js
         //queue_js_url("http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js");
-        queue_js_file('elFinder/js/elFinder.min');        
+        queue_js_file('elFinder/js/elFinder.min');
+        
+        if (strpos('http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'],'/simple-pages/index/edit/') !== false) {
+            queue_js_file('imageManager');
+        }       
     }
 
     /**
