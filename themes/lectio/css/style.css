@@ -1099,6 +1099,7 @@
   #home .icon {
     position: relative;
     background: #fff;
+    margin-bottom: 3.42857em;
   }
   /* line 908, sass/_screen.scss */
   #home .icon .icon-title-box {
