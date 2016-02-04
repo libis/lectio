@@ -2,7 +2,6 @@ jQuery(window).load(function() {
     tinyMCE.init({
             // Assign TinyMCE a textarea:
             mode : 'exact',
-            elements: 'simple-pages-text',
             // Add plugins:
             plugins: 'media,paste,inlinepopups',
             // Configure theme:
