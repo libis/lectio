@@ -1,22 +1,23 @@
 <?php
-
 /**
  * @package     omeka
  * @subpackage  solr-search
  * @copyright   2012 Rector and Board of Visitors, University of Virginia
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
-
 ?>
-
 
 <?php queue_css_file('results'); ?>
 <?php echo head(array('title' => __('Solr Search')));?>
-
-
-<h1><?php echo __('Search the Collection'); ?></h1>
-
-<?php //echo libis_get_simple_page_content('search-help');?>
+<?php 
+    $title = 'Search the Collection';
+    if(isset($_GET['facet'])):
+        if(strpos($_GET['facet'],'News') !== false || strpos($_GET['facet'],'Event')):
+            $title = "News & events";
+        endif;
+    endif;   
+?>
+<h1><?php echo __($title); ?></h1>
 
 <!-- Search form. -->
 <div id="solr-form-div">
@@ -28,45 +29,33 @@
       ?>" />
     </span>
     <a class="search-help" href="<?php echo url('search-help'); ?>">&RightTeeArrow; Search tips</a>  
-  </form>
-    
+  </form>    
 </div>
-
 
 <!-- Applied facets. -->
 <div id="solr-applied-facets">
-
   <ul>
-
     <!-- Get the applied facets. -->
     <?php foreach (SolrSearch_Helpers_Facet::parseFacets() as $f): ?>
       <li>
-
         <!-- Facet label. -->
         <?php $label = SolrSearch_Helpers_Facet::keyToLabel($f[0]); ?>
         <span class="applied-facet-label"><?php echo $label; ?></span> :
         <span class="applied-facet-value"><?php echo $f[1]; ?></span>
-
         <!-- Remove link. -->
         <?php $url = SolrSearch_Helpers_Facet::removeFacet($f[0], $f[1]); ?>
         <a href="<?php echo $url; ?>">x</a>
-
       </li>
     <?php endforeach; ?>
       
     <?php if(SolrSearch_Helpers_Facet::parseFacets()):?>
       <li><a href="<?php echo url('solr-search?q='.$_GET['q']) ?>">Remove all filters</a></li>
-    <?php endif;?>  
-
+    <?php endif;?>
   </ul>
-    
-
 </div>
-<div>
-    <?php echo pagination_links(); ?></div>
+<div><?php echo pagination_links(); ?></div>
 <!-- Facets. -->
 <div id="solr-facets">
-
   <h2><?php echo __('Limit your search'); ?></h2>
 
   <?php foreach ($results->facet_counts->facet_fields as $name => $facets): ?>
