@@ -184,7 +184,7 @@ class Rosetta_Storage_Adapter_Rosetta implements Omeka_Storage_Adapter_AdapterIn
             
             return $uri.'/'.$name;
         endif;
-        return $this->_webDir . '/';
+        return $this->_webDir . '/'. $path;;
     }
 
     /**

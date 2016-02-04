@@ -13,7 +13,7 @@
  * @package Omeka\File\Derivative\Strategy
  */
 class Rosetta_File_Derivative_Strategy_Rosetta
-    extends Omeka_File_Derivative_AbstractStrategy
+    extends Omeka_File_Derivative_Strategy_ExternalImageMagick
 {
     const IMAGEMAGICK_CONVERT_COMMAND = 'convert';
 
@@ -80,7 +80,7 @@ class Rosetta_File_Derivative_Strategy_Rosetta
             return $this->_convertPath;
         }
         
-        $path = $this->getOption('path_to_convert');
+        $path = get_option('path_to_convert');
         if ($path && ($pathClean = realpath($path)) && is_dir($pathClean)) {
             $pathClean = rtrim($pathClean, DIRECTORY_SEPARATOR);
             $this->_convertPath = $pathClean . DIRECTORY_SEPARATOR . self::IMAGEMAGICK_CONVERT_COMMAND;
