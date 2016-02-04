@@ -17,7 +17,7 @@ class ImageManagerPlugin extends Omeka_Plugin_AbstractPlugin
      * @var array Hooks for the plugin.
      */
     protected $_hooks = array('install', 'uninstall','initialize',
-        'define_routes', 'config_form', 'config','admin_head');
+        'define_routes', 'config_form', 'config','admin_head','admin_footer');
 
     /**
      * @var array Filters for the plugin.
@@ -104,6 +104,83 @@ class ImageManagerPlugin extends Omeka_Plugin_AbstractPlugin
         if (strpos('http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'],'/simple-pages/index/edit/') !== false) {
             queue_js_file('imageManager');
         }       
+    }
+    
+    public function hookAdminFooter(){
+        if (strpos('http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'],'/simple-pages/index/edit/') !== false) {
+            $page = get_current_record('SimplePagesPage');
+            $tiny_mce = $page->use_tiny_mce;
+        }
+        else{
+            $tiny_mce =0;
+        }
+        
+        ?>
+        <script>
+            jQuery(window).load(function(){
+                tinyMCE.init({
+                    // Assign TinyMCE a textarea:
+                    mode : 'exact',
+                    elements: '<?php if ($tiny_mce) echo 'simple-pages-text'; ?>',
+                    // Add plugins:
+                    plugins: 'media,paste,inlinepopups',
+                    // Configure theme:
+                    theme: 'advanced',
+                    height : "480",
+                    theme_advanced_toolbar_location: 'top',
+                    theme_advanced_toolbar_align: 'left',
+                    theme_advanced_buttons3_add : 'pastetext,pasteword,selectall',
+                    // Allow object embed. Used by media plugin
+                    // See http://www.tinymce.com/forum/viewtopic.php?id=24539
+                    media_strict: false,
+                    // General configuration:
+                    convert_urls: false, 
+                    file_browser_callback: elFinderBrowser,
+                    init_instance_callback : myCustomInitInstance
+
+                });
+
+                // Add or remove TinyMCE control.
+                jQuery('#simple-pages-use-tiny-mce').click(function() {
+                    if (jQuery(this).is(':checked')) {
+                        tinyMCE.execCommand('mceAddControl', true, 'simple-pages-text');
+                        jQuery('#simple-pages-text').hide();
+
+                    } else {
+                        tinyMCE.execCommand('mceRemoveControl', true, 'simple-pages-text');
+                        jQuery('#simple-pages-text').show();
+                        jQuery('#simple-pages-text').css('visibility','visible');
+                    }
+                });
+    
+                function elFinderBrowser (field_name, url, type, win) {
+                    var current_url = window.location.href; 
+                    var split_url = current_url.split("/admin/");
+
+                    tinyMCE.activeEditor.windowManager.open({
+
+                      file: split_url[0] + '/admin/image-manager/window',// use an absolute path!
+                      title: 'File Browser',
+                      width: 900,  
+                      height: 420,
+                      inline: 'yes',    // This parameter only has an effect if you use the inlinepopups plugin!
+                      popup_css: false, // Disable TinyMCE's default popup CSS
+                      close_previous: 'no'
+
+                    }, {
+                       window: win,
+                       input: field_name
+                    });
+                    return false;
+                }
+                function myCustomInitInstance(inst) {
+                    jQuery('.mceEditor:last').hide();
+                    jQuery('.mceEditor:first').show();
+                }
+        
+            });
+        </script>
+        <?php
     }
 
     /**

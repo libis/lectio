@@ -18,7 +18,7 @@ jQuery(window).load(function() {
         theme: 'advanced',
         theme_advanced_toolbar_location: 'top',
         theme_advanced_toolbar_align: 'left',
-        theme_advanced_buttons3_add : 'pastetext,pasteword,selectall,|,forecolor,backcolor',
+        theme_advanced_buttons3_add : 'pastetext,pasteword,selectall',
         // Allow object embed. Used by media plugin
         // See http://www.tinymce.com/forum/viewtopic.php?id=24539
         media_strict: false,

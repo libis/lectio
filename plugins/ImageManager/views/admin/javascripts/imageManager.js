@@ -1,21 +1,4 @@
-jQuery(window).load(function() {   
-    tinyMCE.init({
-            // Assign TinyMCE a textarea:
-            mode : 'exact',
-            // Add plugins:
-            plugins: 'media,paste,inlinepopups',
-            // Configure theme:
-            theme: 'advanced',
-            theme_advanced_toolbar_location: 'top',
-            theme_advanced_toolbar_align: 'left',
-            theme_advanced_buttons3_add : 'pastetext,pasteword,selectall',
-            // Allow object embed. Used by media plugin
-            // See http://www.tinymce.com/forum/viewtopic.php?id=24539
-            media_strict: false,
-            // General configuration:
-            convert_urls: false, 
-            file_browser_callback: elFinderBrowser            
-    });    
+jQuery(window).load(function() {  
     
     function elFinderBrowser (field_name, url, type, win) {
         var current_url = window.location.href; 
@@ -37,4 +20,4 @@ jQuery(window).load(function() {
         });
         return false;
     }
-});   
+}); 

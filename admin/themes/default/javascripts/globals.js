@@ -29,7 +29,7 @@ if (!Omeka) {
             autoresize_max_height: 500
         };
 
-        tinyMCE.init($.extend(initParams, params));
+        tinyMCE.init(jQuery.extend(initParams, params));
     };
 
     Omeka.deleteConfirm = function () {
