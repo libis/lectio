@@ -9,11 +9,11 @@
 <div class="news">
     <h2>News</h2>
     <?php echo libis_get_news('home');?>
-    <p class="view-items-link"><a href='<?php echo url('solr-search?q=test&facet=itemtype:"News"');?>'>read more</a></p> 
+    <p class="view-items-link"><a href='<?php echo url('solr-search?q=&facet=itemtype:"News"');?>'>read more</a></p> 
 
     <h2>Events</h2>
     <?php echo libis_get_events('home');?>
-    <p class="view-items-link"><a href='<?php echo url('solr-search?q=test&facet=itemtype:"Event"');?>'>read more</a></p> 
+    <p class="view-items-link"><a href='<?php echo url('solr-search?q=&facet=itemtype:"Event"');?>'>read more</a></p> 
 </div>
 
 <?php echo libis_get_simple_page_content('home-icons');?>
