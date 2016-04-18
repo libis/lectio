@@ -1,0 +1,24 @@
+COPY,IdentifierCallnumber,items::Object:Call number
+COPY,title,items::dc:Title
+COPY,object_id,items::Object:objectid
+SPLITTOONE,other titles,$$,items::dc:Alternative title
+SPLITTOONE,date,$$,items::dc:Date
+SPLITTOONE,Description,$$,items::dc:Description
+SPLITTOONE,Notes,$$,items::Object:Notes
+SPLITTOONE,TableOfContents,$$,items::dc:Table Of Contents
+SPLITTOONE,language,$$,items::dc:Language
+SPLITTOONE,type,$$,items::dc:Type
+SPLITTOONE,Professor,$$,items::Object:Professor
+SPLITTOONE,Creator,$$,items::dc:Creator
+SPLITTOONE,Contributor,$$,items::dc:Contributor
+SPLITTOONE,content,$$,items::Object:Content
+SPLITTOONE,Illustrations,$$,items::Object:Illustrations
+SPLITTOONE,provenance,$$,items::dc:Provenance
+SPLITTOONE,source,$$,items::dc:Source
+SPLITTOONE,LIMO,$$,items::Object:LIMO
+PUT,true,items::featured
+PUT,true,collection::featured
+PUT,true,items::public
+PUT,"Object",items::item_type
+PUT,1,"items::collection"
+PUT,"items",Resource

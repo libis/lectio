@@ -99,53 +99,66 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
      * @param type $args
      * @return type
      */
-    public function hookAfterSaveItem($args){
-
-        if (!($post = $args['post'])) {
-            return;
-        }
+    public function hookAfterSaveItem($args){       
         
         $item = $args['record'];
-        $post = $_POST;
+        $pids=array();        
         
-        $pid = '';
-        
-        if($post['known-pid']):
-            $pid = $post['known-pid'];
-        elseif($post['pid']):
-            $pid = $post['pid'];
-        endif;
-        
-        if ($pid) {     
-            //download the file, start with the highest quality (to get more accurate metadata) 
-            $obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid.'/stream/?quality=HIGH');
+        /*
+         * Check if post comes from API or not
+         * API posts do not allow custom post fields so we need to get the pids out of an element instead
+         */
+        if(!$args['post']):
+            
+            $texts = $item->getAllElementTexts();
 
-            if(!$obj):
-                //try low quality
-                $obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid.'/stream/?quality=LOW');
+            foreach($texts as $text):
+                $element = get_record_by_id("Element",$text->element_id);
+                if($element->name == 'Pid_rosetta'):                
+                    $pids[] = $text->text;
+                endif;
+            endforeach;
+            
+        elseif($post = $args['post']):
+            $post = $args['post'];      
+               
+            if($post['known-pid']):
+                $pids[] = $post['known-pid'];
+            elseif($post['pid']):
+                $pids[] = $post['pid'];
             endif;
-            
-            //last try, just get thumbnail
-            if(!$obj):
-                 $obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid);                 
-            endif;
-            
-            file_put_contents('/tmp/'.$pid.'_resolver',$obj); 
-            
-            $file = new File();
-            $file->item_id = $item->id;            
-            $file->filename = $pid.'_resolver';
-            $file->has_derivative_image = 1;
-            $file->mime_type = rosetta_get_mime_type($obj);
-            $file->original_filename = $pid;            
-            $file->metadata = array('test'=>'test');
-            $file->save();
-            
-            //delete the tmp file
-            unlink('/tmp/'.$pid.'_resolver');
-           
-        }    
-        
+        endif;
+       
+        if(!empty($pids)):            
+            foreach($pids as $pid):
+                echo " g";
+                //download the file, start with the highest quality (to get more accurate metadata) 
+                //$obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid.'/stream/?quality=HIGH');
+
+                $obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid.'/stream/?quality=LOW');                
+
+                //last try, just get thumbnail
+                if(!$obj):
+                     $obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid);                 
+                endif;
+
+                file_put_contents('/tmp/'.$pid.'_resolver',$obj); 
+
+                $file = new File();
+                $file->item_id = $item->id;            
+                $file->filename = $pid.'_resolver';
+                $file->has_derivative_image = 1;
+                $file->mime_type = rosetta_get_mime_type($obj);
+                $file->original_filename = $pid;            
+                $file->metadata = array('test'=>'test');
+                $file->save();
+
+                //delete the tmp file
+                unlink('/tmp/'.$pid.'_resolver');      
+            endforeach;    
+        else:
+            return false;
+        endif;
     }
     
     /**

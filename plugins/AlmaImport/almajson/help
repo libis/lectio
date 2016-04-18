@@ -1,0 +1,13 @@
+
+Convert Alma (marc) to a JSON format readable by the euInside transformation service which then outputs JSON readable by Omeka
+
+transformation service: https://github.com/libis/euInside
+
+alma API key: l7xxc4a95fa7d89d43048001ef9c3b5e37dc
+
+voorbeeld mapping:
+    /nas/web/lias_html/einside_test/files/KADOC14084351
+  
+    input: kadoc.xml
+    mapping: myrules.csv
+    output: Transformed_kadoc.xml
