@@ -69,7 +69,7 @@ class AlmaImport_IndexController extends Omeka_Controller_AbstractActionControll
         );
         $msg_body = array(
                 'set_info'  => $set_info,
-                'user_info' => array('name' => 'Joris', 'email' => 'joris.lambrechts@kuleuven.be')
+                'user_info' => array('name' => 'Admin', 'email' => get_option('administrator_email'))
         );
 
         $queuing_server->queuingRequest($msg_body);
