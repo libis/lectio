@@ -1,6 +1,7 @@
 <?php
-require 'File/MARC.php';
-require 'File/MARCXML.php';
+
+
+
 class AlmaTalker{
     
     protected $object_id;
@@ -22,7 +23,7 @@ class AlmaTalker{
         $options = array(
             CURLOPT_HEADER => "Content-Type:application/xml",
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_PROXY => $proxy
+            CURLOPT_PROXY => get_option('alma_import_proxy')
         );
         curl_setopt_array($ch, $options);
 
