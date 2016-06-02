@@ -18,10 +18,13 @@ class AlmaTalker{
 
     public function alma_curl($url){        
         $ch = curl_init($url);
-
+        
+        $proxy=get_option('alma_import_prodxy');
+        
         $options = array(
             CURLOPT_HEADER => "Content-Type:application/xml",
-            CURLOPT_RETURNTRANSFER => 1
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_PROXY => $proxy
         );
         curl_setopt_array($ch, $options);
 

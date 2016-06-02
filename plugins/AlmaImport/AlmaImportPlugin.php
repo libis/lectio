@@ -25,12 +25,14 @@ class AlmaImportPlugin extends Omeka_Plugin_AbstractPlugin
 
    public function hookInstall()
     {
-        set_option('alma_import_api_key', '');       
+        set_option('alma_import_api_key', '');
+        set_option('alma_import_proxy', '');
     }
 
     public function hookUninstall()
     {
         delete_option('alma_import_api_key');
+        delete_option('alma_import_proxy');
     }
 
     /**
@@ -58,6 +60,7 @@ class AlmaImportPlugin extends Omeka_Plugin_AbstractPlugin
     {
         $post = $args['post'];
         set_option('alma_import_api_key', $post['key']);
+        set_option('alma_import_proxy', $post['proxy']);
     }
 
     public function filterAdminNavigationMain($nav)
