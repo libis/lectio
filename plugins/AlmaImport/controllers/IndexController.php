@@ -27,6 +27,7 @@ class AlmaImport_IndexController extends Omeka_Controller_AbstractActionControll
             //make json
             foreach($ids_array as $record):
                 $talk = new AlmaTalker($record,get_option('alma_import_api_key'));
+            
                 $marc_json = $talk->make_marc_json();
                 
                 $records[] = $marc_json;

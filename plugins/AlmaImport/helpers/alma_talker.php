@@ -19,8 +19,6 @@ class AlmaTalker{
     public function alma_curl($url){        
         $ch = curl_init($url);
         
-        $proxy=get_option('alma_import_proxy');
-        
         $options = array(
             CURLOPT_HEADER => "Content-Type:application/xml",
             CURLOPT_RETURNTRANSFER => 1,
@@ -29,6 +27,24 @@ class AlmaTalker{
         curl_setopt_array($ch, $options);
 
         $alma_xml = curl_exec($ch);
+        
+        if (curl_errno($ch)) {
+            // this would be your first hint that something went wrong
+            die('Couldn\'t send request: ' . curl_error($ch));
+        } else {
+            // check the HTTP status code of the request
+            $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($resultStatus == 200) {
+                // everything went better than expected
+            } else {
+                // the request did not complete as expected. common errors are 4xx
+                // (not found, bad request, etc.) and 5xx (usually concerning
+                // errors/exceptions in the remote script execution)
+
+                die('Request failed: HTTP status code: ' . $resultStatus);
+            }
+        }
+        
         curl_close($ch);
         return $alma_xml;
     }
@@ -41,6 +57,7 @@ class AlmaTalker{
     }    
 
     public function get_holdings_links(){
+        $hold_links = array();
         $holdings = $this->alma_curl($this->alma_url.$this->object_id."/holdings?apikey=".$this->key);
         $holdings = new SimpleXMLElement($holdings);
         foreach($holdings as $hold):
