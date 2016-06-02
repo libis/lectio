@@ -1,6 +1,5 @@
-<?php echo head(); ?>
+<?php echo head(array('title'=>'Alma Import')); ?>
 <div id="primary">
-    <h1>Alma Import</h1>
     <div id="alma-import-form">
         <div id="form-instructions">
             <p>Insert a list of id's below, seperated by pipe.</p>
