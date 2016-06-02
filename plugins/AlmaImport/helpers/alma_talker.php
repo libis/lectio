@@ -62,7 +62,8 @@ class AlmaTalker{
         $holdings = new SimpleXMLElement($holdings);
         foreach($holdings as $hold):
             if($hold->holding_id):
-                $hold_links[]=$hold->attributes()['link'];
+                $attr = $hold->attributes();
+                $hold_links[]=$attr['link'];
             endif;    
         endforeach;
         return $hold_links;
