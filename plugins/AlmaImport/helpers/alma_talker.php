@@ -1,6 +1,9 @@
 <?php
 
-
+$path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'marc';
+set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+require 'File/MARC.php';
+require 'File/MARCXML.php';
 
 class AlmaTalker{
     

@@ -22,32 +22,32 @@ class AlmaImport_IndexController extends Omeka_Controller_AbstractActionControll
         $status='';
         //get ids
         if($ids):
-            $ids_array = explode("|",$ids);   
-            
+            $ids_array = explode("|",$ids);
+
             //make json
             foreach($ids_array as $record):
                 $talk = new AlmaTalker($record,get_option('alma_import_api_key'));
-            
+
                 $marc_json = $talk->make_marc_json();
-                
+
                 $records[] = $marc_json;
-                
+
             endforeach;
-            
-            //var_dump($records);
-            
+
+            var_dump($records);
+
             //do lectio specific manipulation
             $transformer = new Transformer($records);
             //var_dump($transformer);
-            $json = $transformer->array_to_json();            
+            $json = $transformer->array_to_json();
             $status = $this->_sendToWorker($json);
         endif;
-        
+
         //send to worker and predict result
 
         $this->view->assign(compact('ids','status'));
-    }    
-    
+    }
+
     protected function _sendToWorker($data){
         $queuing_server = new integrationQueue();
         $queuing_server->loadLibisInConfigurations();
@@ -58,7 +58,7 @@ class AlmaImport_IndexController extends Omeka_Controller_AbstractActionControll
                 die ("Mapping rules file '$mappingFilePath' does not exists.\n");
 
         $mapping_rules =  file_get_contents($mappingFilePath);
-        
+
         $set_info[] = array(
                 'set_name'	=> 'myset',
                 'set_id'    	=> 100,
