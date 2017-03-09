@@ -1,7 +1,7 @@
 <?php
 require_once PLUGIN_DIR.'/AlmaImport/helpers/alma_talker.php';
 require_once PLUGIN_DIR.'/AlmaImport/helpers/transformer.php';
-require_once PLUGIN_DIR."/AlmaImport/helpers/libisinworkerclient/helpers/integrationQueue.php";
+require_once PLUGIN_DIR.'/AlmaImport/helpers/importer.php';
 
 /**
  * @copyright Libis
@@ -19,6 +19,7 @@ class AlmaImport_IndexController extends Omeka_Controller_AbstractActionControll
     {
         $records="";
         $ids = isset($_POST['ids']) ? $_POST['ids'] : '';
+
         $status='';
         //get ids
         if($ids):
@@ -27,54 +28,39 @@ class AlmaImport_IndexController extends Omeka_Controller_AbstractActionControll
             //make json
             foreach($ids_array as $record):
                 $talk = new AlmaTalker($record,get_option('alma_import_api_key'));
-
                 $marc_json = $talk->make_marc_json();
-
                 $records[] = $marc_json;
-
             endforeach;
 
-            var_dump($records);
+            $type = isset($_POST['item-type']) ? $_POST['item-type'] : '';
+            $collection = isset($_POST['collection']) ? $_POST['collection'] : '';
 
             //do lectio specific manipulation
             $transformer = new Transformer($records);
-            //var_dump($transformer);
-            $json = $transformer->array_to_json();
-            $status = $this->_sendToWorker($json);
+            $result = $transformer->get_array();
+
+            $status = $this->_import($result,$type,$collection);
         endif;
 
-        //send to worker and predict result
+        //get item types and collections
+        $item_types = get_records('ItemType',array(),999);
+        $collections = get_records('Collection',array(),999);
 
-        $this->view->assign(compact('ids','status'));
+        //send to worker and predict result
+        $this->view->assign(compact('ids','status','item_types','collections'));
     }
 
-    protected function _sendToWorker($data){
-        $queuing_server = new integrationQueue();
-        $queuing_server->loadLibisInConfigurations();
-
-        $mappingFilePath = PLUGIN_DIR."/AlmaImport/helpers/libisinworkerclient/helpers/mappings/mappingrules.csv";
+    protected function _import($data,$type,$collection){
+        $mappingFilePath = PLUGIN_DIR."/AlmaImport/mappingrules.csv";
 
         if (!file_exists($mappingFilePath))
                 die ("Mapping rules file '$mappingFilePath' does not exists.\n");
 
         $mapping_rules =  file_get_contents($mappingFilePath);
 
-        $set_info[] = array(
-                'set_name'	=> 'myset',
-                'set_id'    	=> 100,
-                'record_type'	=> 'objects',
-                'bundle'    	=> null,
-                'mapping'   	=> $mapping_rules,
-                'data'		=> $data,
-                'collective_access_call' => false
-        );
-        $msg_body = array(
-                'set_info'  => $set_info,
-                'user_info' => array('name' => 'Admin', 'email' => get_option('administrator_email'))
-        );
-
-        $queuing_server->queuingRequest($msg_body);
-
-        return "Ids sent to queue!";
+        $import = new Importer($data, $mapping_rules,$type,$collection);
+        $status =  $import->go();
+        return $status;
     }
+
 }

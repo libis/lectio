@@ -11,15 +11,26 @@ class Transformer{
         $final['ok']='true';
         foreach($this->records as $record):
             $record = json_decode($record,true);
-            //simplify the array            
+            //simplify the array
             $fields = $this->parse_fields($record['fields']);
             $result = $this->transform($fields);
             $final['results'][]= $result;
         endforeach;
         
-        
-
         return json_encode($final);
+    }
+
+    public function get_array(){
+        $final['ok']='true';
+        foreach($this->records as $record):
+            $record = json_decode($record,true);
+            //simplify the array
+            $fields = $this->parse_fields($record['fields']);
+            $result = $this->transform($fields);
+            $final['results'][]= $result;
+        endforeach;
+
+        return $final;
     }
 
     public function parse_fields($fields){
@@ -33,12 +44,12 @@ class Transformer{
                 endforeach;
                 $field[key($field)]['subfields']=$temp;
             endif;
-            $result[][key($field)]=$field[key($field)];     
-                  
+            $result[][key($field)]=$field[key($field)];
+
         endforeach;
         return $result;
     }
-   
+
     public function get_record(){
         return $this->array_to_json();
     }
@@ -46,7 +57,7 @@ class Transformer{
     public function transform($fields){
         $result="";
         foreach($fields as $field):
-        
+
             if(isset($field["001"])):
                 $result["object_id"][]=$field["001"];
                 $result["LIMO"][]="https://services.libis.be/query?institution=KUL&view=KULeuven&query=any:".$field["001"];
@@ -55,7 +66,7 @@ class Transformer{
             if(isset($field["245"])):
                 $result["title"][]=$field["245"]['subfields']['a'];
             endif;
-            
+
             if(isset($field["246"])):
                 $result["other titles"][]=$field["246"]['subfields']['a'];
             endif;
@@ -97,7 +108,7 @@ class Transformer{
             endif;
 
             if (isset($field["952"])):
-                if($field["952"]["ind1"]=' '&&$field["952"]["ind2"]==' '):			
+                if($field["952"]["ind1"]=' '&&$field["952"]["ind2"]==' '):
 				    $data = $field["952"]['subfields']['d'];
 				    if ($field["952"]['subfields']['f'] != null) {
 					    $data .= "; ".$field["952"]['subfields']['f'];
@@ -106,43 +117,43 @@ class Transformer{
                 endif;
 		    endif;
 
-            if (isset($field["505"])):					
+            if (isset($field["505"])):
 			    $data = "";
 			    if (isset($field["505"]['subfields']['a'])) {
 				    $data = $field["505"]['subfields']['a'];
-			    } 
+			    }
 
                 if (isset($field["505"]['subfields']['g'])) {
 				    $data .= " (".$field["505"]['subfields']['g'].")";
-			    } 
+			    }
 			    $result["TableOfContents"][]=$data;
             endif;
 
             if (isset($field["300"])):
                 if($field["300"]["ind1"]=' '&&$field["300"]["ind2"]==' '):
 			        $data = $field["300"]['subfields']['a'];
-			
+
 			        if (isset($field["300"]['subfields']['b'])) {
 				        $data .= " : ".$field["300"]['subfields']['b'];
 			        }
-			        if (isset($field["300"]['subfields']['c'])) {				
+			        if (isset($field["300"]['subfields']['c'])) {
 				        // if b is null, there is no need for a ; because subfields a ends with a ;
 				        if (isset($field["300"]['subfields']['b'])) {
 					        $data .= " ; ";
-				        }				
+				        }
 				        $data .= $field["300"]['subfields']['c'];
 			        }
 			        $result["Description"][]=$data;
                 endif;
 		    endif;
-				
+
             if (isset($field["950"])):
-                if($field["950"]["ind1"]=' '&&$field["950"]["ind2"]==' '):			   
+                if($field["950"]["ind1"]=' '&&$field["950"]["ind2"]==' '):
 			        $data = "";
 			        if (isset($field["950"]['subfields']['a'])) {
 				        $data = $field["950"]['subfields']['a'];
 			        }
-			
+
 			        if (isset($field["950"]['subfields']['b'])) {
 				        $data .= " ".$field["950"]['subfields']['b'];
 			        }
@@ -168,7 +179,7 @@ class Transformer{
 
             if(isset($field["852"])):
                 if (!isset($field["852"]['subfields']['l'])) {
-						
+
 				    $data =$field["852"]['subfields']['b'];
 				    switch ($data) {
 				    case "BIBC":
@@ -181,18 +192,18 @@ class Transformer{
 					    $data = "KU Leuven. Campuslibrary Arenberg";
 					    break;
 				    default:
-					
+
 				    }//end switch
-				
+
 				    $result['source'][]= $data;
-				
+
 				    if ($field["852"]['subfields']['h'] != null) {
 					    $result["IdentifierCallnumber"][] = $field["852"]['subfields']['h'];
-				    }	
+				    }
 			    }
             endif;
 
-            if (isset($field["700"])): 
+            if (isset($field["700"])):
 			    if($field["700"]['subfields']['4']=="stu" || $field["700"]['subfields']['4']=="pfs"
 			    || $field["700"]['subfields']['4']=="aow" || $field["700"]['subfields']['4']=="aut"
 			    || $field["700"]['subfields']['4']=="egr" || $field["700"]['subfields']['4']=="etc"
@@ -200,7 +211,7 @@ class Transformer{
 			    || $field["700"]['subfields']['4']=="prt") {
 			    // This construction is to remove duplicated entries. (thanks to the property of hashset, linked, because order matters
 			    $data="";
-			
+
 			    if (isset($field["700"]['subfields']['a'])) {
 				    $data .= $field["700"]['subfields']['a'];
 			    }
@@ -222,7 +233,7 @@ class Transformer{
 			    if (isset($field["700"]['subfields']['3'])) {
 				    $data .=" (". $field["700"]['subfields']['3'] .  ")";
 			    }
-					
+
 	            if ($field["700"]['subfields']['4']!="stu" && $field["700"]['subfields']['4']!="pfs") {
 		            switch ($field["700"]['subfields']['4']) {
 		                case "aow":
@@ -251,18 +262,18 @@ class Transformer{
 			                break;
 		            }
 	            }
-	
+
 	            if ($field["700"]['subfields']['4']=="stu") {
-		
+
 		            $result["Creator"][]=$data;
-		
+
 	            } else if ($field["700"]['subfields']['4']=="pfs") {
-		
+
 		            $result["Professor"][]=$data;
-		             
+
 	            } else {
 		            $result["Contributor"][]=$data;
-	            }				
+	            }
 
             }
             endif;
