@@ -114,6 +114,7 @@ class Importer{
     }
 
     protected function add_files($item,$pids){
+
         foreach($pids as $pid):
             //download the file, start with the highest quality (to get more accurate metadata)
             $obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid);
@@ -126,7 +127,7 @@ class Importer{
             $file->has_derivative_image = 1;
             $file->mime_type = rosetta_get_mime_type($obj);
             $file->original_filename = $pid;
-            $file->metadata = array('test'=>'test');
+            $file->metadata = "";
             $file->save();
 
             //delete the tmp file

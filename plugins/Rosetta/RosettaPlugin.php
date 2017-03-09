@@ -45,14 +45,14 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
         delete_option('rosetta_proxy');
         delete_option('rosetta_resolver');
     }
-    
+
     /**
      * Display the config form.
      */
-    public function hookConfigForm() {        
+    public function hookConfigForm() {
         require dirname(__FILE__) .'/config_form.php';
     }
-    
+
     /**
      * process the config form
      */
@@ -92,78 +92,54 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
              )
          );
     }
-    
+
     /**
      * use pid to download file to tmp and save file information
-     * 
+     *
      * @param type $args
      * @return type
      */
-    public function hookAfterSaveItem($args){       
-        
-        $item = $args['record'];
-        $pids=array();        
-        
-        /*
-         * Check if post comes from API or not
-         * API posts do not allow custom post fields so we need to get the pids out of an element instead
-         */
-        if(!$args['post']):
-            
-            $texts = $item->getAllElementTexts();
+    public function hookAfterSaveItem($args){
 
-            foreach($texts as $text):
-                $element = get_record_by_id("Element",$text->element_id);
-                if($element->name == 'Pid_rosetta'):                
-                    $pids[] = $text->text;
-                endif;
-            endforeach;
-            
-        elseif($post = $args['post']):
-            $post = $args['post'];      
-               
+        $item = $args['record'];
+        $pids=array();
+
+        if($post = $args['post']):
+            $post = $args['post'];
+
             if($post['known-pid']):
                 $pids[] = $post['known-pid'];
             elseif($post['pid']):
                 $pids[] = $post['pid'];
             endif;
-        endif;
-       
-        if(!empty($pids)):            
-            foreach($pids as $pid):
-                echo " g";
-                //download the file, start with the highest quality (to get more accurate metadata) 
-                //$obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid.'/stream/?quality=HIGH');
 
-                $obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid.'/stream/?quality=LOW');                
+            if(!empty($pids)):
+                foreach($pids as $pid):
+                    $obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid);
 
-                //last try, just get thumbnail
-                if(!$obj):
-                     $obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid);                 
-                endif;
+                    file_put_contents('/tmp/'.$pid.'_resolver',$obj);
 
-                file_put_contents('/tmp/'.$pid.'_resolver',$obj); 
+                    $file = new File();
+                    $file->item_id = $item->id;
+                    $file->filename = $pid.'_resolver';
+                    $file->has_derivative_image = 1;
+                    $file->mime_type = rosetta_get_mime_type($obj);
+                    $file->original_filename = $pid;
+                    $file->metadata = "";
+                    $file->save();
 
-                $file = new File();
-                $file->item_id = $item->id;            
-                $file->filename = $pid.'_resolver';
-                $file->has_derivative_image = 1;
-                $file->mime_type = rosetta_get_mime_type($obj);
-                $file->original_filename = $pid;            
-                $file->metadata = array('test'=>'test');
-                $file->save();
-
-                //delete the tmp file
-                unlink('/tmp/'.$pid.'_resolver');      
-            endforeach;    
-        else:
-            return false;
+                    //delete the tmp file
+                    unlink('/tmp/'.$pid.'_resolver');
+                endforeach;
+            else:
+                return false;
+            endif;
         endif;
     }
-    
+
     /**
      * load and save metadata of a rosetta object/file
-     * 
+     *
      * @param type $args
      * @return type
      */
@@ -172,17 +148,17 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
         if (!$args['insert']) {
             return;
         }
-        
+
         $file = $args['record'];
-       
-        $base_url = get_option('rosetta_resolver'); 
+
+        $base_url = get_option('rosetta_resolver');
         $url = $base_url."/".$file->original_filename."/metadata";
-        
+
         //insert metadata
-        if($metadata = rosetta_get_metadata($url)):     
+        if($metadata = rosetta_get_metadata($url)):
             foreach($metadata as $key => $value):
                 if($key != 'tableOfContents'):
-                    if(!$file->hasElementText('Dublin Core', ucfirst($key))):              
+                    if(!$file->hasElementText('Dublin Core', ucfirst($key))):
                         $element = $file->getElement('Dublin Core', ucfirst($key));
                         if(is_array($value)):
                             foreach($value as $text):
@@ -191,17 +167,17 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
                         else:
                             $file->addTextForElement($element, $value);
                         endif;
-                    endif;    
-                endif;    
-            endforeach;            
-        endif; 
+                    endif;
+                endif;
+            endforeach;
+        endif;
     }
-    
+
     public function hookDefineAcl($args)
     {
         $acl = $args['acl'];
         $acl->addResource('Rosetta_RosettaObjects');
-        
+
         $acl->allow(null, 'Rosetta_RosettaObjects',
         array('show', 'summary', 'showitem', 'browse', 'tags'));
 
@@ -214,10 +190,10 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
         $acl->allow(null, 'Rosetta_RosettaObjects', array('edit', 'delete'),
         new Omeka_Acl_Assert_Ownership);
     }
-   
+
     /**
-    * add rosetta form to file form 
-    * 
+    * add rosetta form to file form
+    *
     * @param type $args
     */
     public function hookAdminItemsFormFiles($args){
@@ -229,14 +205,14 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
     public function filterApiResources($apiResources)
     {
         $apiResources['rosetta_objects'] = array(
-            'record_type' => 'RosettaObject', 
+            'record_type' => 'RosettaObject',
             'actions' => array('get','index','put','post','delete')
-        );       
+        );
 
-        return $apiResources;    
+        return $apiResources;
     }
-    
-    
+
+
     /**
     * Add rosetta urls to item API representations.
     *
@@ -255,7 +231,7 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
         $i=1;
         foreach($objects as $object):
             $extend['rosetta_objects'] = array(
-                'count'=>$i,        
+                'count'=>$i,
                 'url' => Omeka_Record_Api_AbstractRecordAdapter::getResourceUrl("/rosetta_objects/{$object->id}"),
                 'resource' => 'rosetta_objects',
                 'pid' => $object->id,
@@ -265,7 +241,7 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
         endforeach;
         return $extend;
     }
-    
+
     public function filterApiImportOmekaAdapters($adapters, $args)
     {
         $adapter = new ApiImport_ResponseAdapter_Omeka_GenericAdapter(null, $args['endpointUri'], 'RosettaObject');

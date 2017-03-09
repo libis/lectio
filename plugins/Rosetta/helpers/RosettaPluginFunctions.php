@@ -8,27 +8,28 @@
 
 /**
  * communicate with resolver
- * 
+ *
  * @param type $url
  * @return return array or boolean
  */
-function rosetta_talk_resolver($url){    
+function rosetta_talk_resolver($url){
     $http_client = new Zend_Http_Client();
-            
-    if(get_option('rosetta_proxy')):               
+
+    if(get_option('rosetta_proxy')):
         $config = array(
                         'adapter'    => 'Zend_Http_Client_Adapter_Proxy',
                         'proxy_host' => get_option('rosetta_proxy'),
-                        'proxy_port' => 8080
+                        'proxy_port' => 8080,
+                        'timeout' => 30
         );
         $http_client->setConfig($config);
-    endif;    
+    endif;
 
     $http_client->setUri($url);
 
     $http_response = $http_client->request();
-    $data = $http_response->getBody();  
-    
+    $data = $http_response->getBody();
+
     if($data):
         return $data;
     else:
@@ -38,12 +39,12 @@ function rosetta_talk_resolver($url){
 
 /**
  * communicate with resolver
- * 
+ *
  * @param type $url
  * @return return array or boolean
  */
-function rosetta_download_image($url){    
-    $data = rosetta_talk_resolver($url);     
+function rosetta_download_image($url){
+    $data = rosetta_talk_resolver($url);
 
     //if no image can be created from data return false
     if($image = @imagecreatefromstring($data)):
@@ -61,59 +62,60 @@ function rosetta_get_mime_type($file){
 
 /**
  * get an object's metadata (see http://resolver.libis.be/help)
- * 
+ *
  * @param rosettaObject
- * @return array 
+ * @return array
  */
 function rosetta_get_metadata($url){
-       
-    if($data = rosetta_talk_resolver($url)): 
+
+    if($data = rosetta_talk_resolver($url)):
         $data = json_decode($data);
-        $data = (array)$data;
-        $data = (array)$data[key($data)];
-        //if no metadata $data[0] is set with 'not found'
-        if(isset($data[0])):
+
+        if(isset($data->status)):
             return false;
         endif;
+        $id = key($data);
+        $data = (array)$data->$id;
+
         return $data;
-    endif;       
-    
-    return false;       
+    endif;
+
+    return false;
 }
 
 /**
  * get a list of all ID's attached to an IE (see http://resolver.libis.be/help)
- * 
+ *
  * @param rosettaObject
  * @return array or boolean
  */
 function rosetta_get_list($url){
-           
+
     if($data = rosetta_talk_resolver($url)):
-        $data = json_decode($data);                
+        $data = json_decode($data);
         $array = (array)$data;
         $first = key($array);
         $list= (array)$array[$first];
         if(sizeof($list) > 1):
            return $list;
-        else:   
+        else:
             return false;
         endif;
     else:
         return false;
-    endif;    
+    endif;
 }
 
 /**
  * partial admin view
- * 
+ *
  * @param type $item
  * @return type
  */
 function rosetta_admin_form($item){
     ob_start();?>
     <h2>Insert file with Rosetta ID</h2>
-    <p class="explanation">Just fill in the pid (if known).</p>    
+    <p class="explanation">Just fill in the pid (if known).</p>
     <Input type = 'text' Name ='known-pid' value= ''>
     <br><br>
     <label>Search for child objects (case sensitive)</label>
@@ -123,7 +125,7 @@ function rosetta_admin_form($item){
     <br><br>
     <div id="wait" style="display:none;">Please wait, this might take a few seconds.</div>
 
-    <br style="clear:both;" />    
+    <br style="clear:both;" />
 
     <div id="result" >
         <div class="result"></div>
@@ -141,7 +143,7 @@ function rosetta_admin_form($item){
                             jQuery('#wait').hide('slow');
                             jQuery('#result').html(data);
                     });
-            });		
+            });
         });
 	</script>
 
@@ -154,7 +156,7 @@ function rosetta_admin_form($item){
 
 /**
  * Calculates restricted dimensions with a maximum of $goal_width by $goal_height
- * 
+ *
  * @param type $goal_width
  * @param type $goal_height
  * @param type $imageobject
@@ -167,17 +169,18 @@ function rosetta_resize_dimensions($goal_width,$goal_height,$imageobject) {
         $config = array(
                         'adapter'    => 'Zend_Http_Client_Adapter_Proxy',
                         'proxy_host' => get_option('rosetta_proxy'),
-                        'proxy_port' => 8080
+                        'proxy_port' => 8080,
+                        'timeout' => 30
         );
         $vo_http_client->setConfig($config);
         $vo_http_client->setUri($imageobject);
 
         $vo_http_response = $vo_http_client->request();
         $image = $vo_http_response->getBody();
-        //echo($image);    
+        //echo($image);
 
         $new_image = imageCreateFromString($image);
-        
+
         // Get new dimensions
         $width = imagesx($new_image);
         $height = imagesy($new_image);
@@ -186,11 +189,11 @@ function rosetta_resize_dimensions($goal_width,$goal_height,$imageobject) {
         //var_dump($size);
         $width = $size[0];
         $height = $size[1];
-    }    
-    
+    }
+
     $return['width'] = $width;
-    $return['height'] = $height;        
-    
+    $return['height'] = $height;
+
     // If the ratio > goal ratio and the width > goal width resize down to goal width
     if ($width/$height > $goal_width/$goal_height && $width > $goal_width) {
         $return['width'] = $goal_width;
@@ -199,8 +202,8 @@ function rosetta_resize_dimensions($goal_width,$goal_height,$imageobject) {
     // Otherwise, if the height > goal, resize down to goal height
     else if ($height > $goal_height) {
         $return['width'] = $goal_height/$height * $width;
-        $return['height'] = $goal_height;        
-    }    
+        $return['height'] = $goal_height;
+    }
 }
 
 /**
@@ -228,7 +231,7 @@ function rosetta_get_image_from_file($pid){
  * @return new URL for resized image.
  */
 function rosetta_resize($pid,$opts=null){
-    
+
         $view_object = get_option('rosetta_view');
 
 	$imagePath = objectdecode($view_object.$pid."&custom_att_3=stream");
@@ -273,12 +276,13 @@ function rosetta_resize($pid,$opts=null){
 		$download_image = false;
 	endif;
 	if($download_image == true):
-		
+
 		$vo_http_client = new Zend_Http_Client();
 		$config = array(
 				'adapter'    => 'Zend_Http_Client_Adapter_Proxy',
 				'proxy_host' => get_option('rosetta_proxy'),
-				'proxy_port' => 8080
+				'proxy_port' => 8080,
+        'timeout' => 30
 		);
 		$vo_http_client->setConfig($config);
 		$vo_http_client->setUri($imagePath);
