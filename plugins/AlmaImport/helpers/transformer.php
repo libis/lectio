@@ -16,7 +16,7 @@ class Transformer{
             $result = $this->transform($fields);
             $final['results'][]= $result;
         endforeach;
-        
+
         return json_encode($final);
     }
 
@@ -36,7 +36,7 @@ class Transformer{
     public function parse_fields($fields){
         $result='';
         foreach($fields as $field):
-            if(isset($field[key($field)]['subfields'])):
+            if(is_array($field[key($field)]['subfields'])):
                 $subfields = $field[key($field)]['subfields'];
                 $temp='';
                 foreach($subfields as $code):
@@ -102,7 +102,7 @@ class Transformer{
 
             if(isset($field["264"])):
                 if($field["264"]["ind1"]=' '&&$field["264"]["ind2"]=='1'):
-                    $data=$field["260"]['subfields']['c'];
+                    $data=$field["264"]['subfields']['c'];
                     $result["date"][] = str_replace('.', '', $data);
                 endif;
             endif;

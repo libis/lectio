@@ -85,29 +85,34 @@ class Importer{
 
         //handle metadata
         foreach($record_metadata as $key=>$metadata):
-            $element_name = $this->mapping[$key]['name'];
-            $element_set = $this->mapping[$key]['set'];
-            $element_texts = explode('$$',$metadata);
-
-            $element = get_db()->getTable('Element')->findByElementSetNameAndElementName($element_set, $element_name);
-
-            //delete if exists
-            if(!$new_item):
-                $existing_texts = get_db()->getTable('ElementText')->findBy(array('record_id' => $item->id, 'element_id' => $element->id));
-                foreach($existing_texts as $existing_text):
-                    $existing_text->delete();
-                endforeach;
+            if(isset($this->mapping[$key])):
+                $element_name = $this->mapping[$key]['name'];
+                $element_set = $this->mapping[$key]['set'];
+                $element_texts = explode('$$',$metadata);
+                $element = get_db()->getTable('Element')->findByElementSetNameAndElementName($element_set, $element_name);
+            else:
+                $element == null;
             endif;
 
-            foreach($element_texts as $text):
-                $element_text = new ElementText();
-                $element_text->record_id = $item->id;
-                $element_text->record_type = 'Item';
-                $element_text->element_id = $element->id;
-                $element_text->html = 0;
-                $element_text->text = $text;
-                $element_text->save();
-            endforeach;
+            //delete if exists
+            if($element != null):
+                if(!$new_item):
+                    $existing_texts = get_db()->getTable('ElementText')->findBy(array('record_id' => $item->id, 'element_id' => $element->id));
+                    foreach($existing_texts as $existing_text):
+                        $existing_text->delete();
+                    endforeach;
+                endif;
+
+                foreach($element_texts as $text):
+                    $element_text = new ElementText();
+                    $element_text->record_id = $item->id;
+                    $element_text->record_type = 'Item';
+                    $element_text->element_id = $element->id;
+                    $element_text->html = 0;
+                    $element_text->text = $text;
+                    $element_text->save();
+                endforeach;
+            endif;
         endforeach;
 
         return true;

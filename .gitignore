@@ -15,6 +15,7 @@
 /.htaccess
 /admin/.htaccess
 /Capfile
+/plugins/AlmaImportWorker
 
 #################
 ## Eclipse
@@ -195,3 +196,5 @@ pip-log.txt
 /application/logs/
 /plugins/SolrSearchOld/
 /plugins/RosettaOld/
+/plugins/AlmaImport/almajson/
+/plugins/AlmaImport/helpers/libisinworkerclient/helpers/config/libisin.ini
