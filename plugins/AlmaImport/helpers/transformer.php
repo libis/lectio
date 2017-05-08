@@ -92,11 +92,11 @@ class Transformer{
                       $pid = end($pid);
                       $result["pid"][] = $pid;
                     }
-                    if (strpos($field["856"]['subfields']['u'], 'libis.resolver') !== false) {
+                    if (strpos($field["856"]['subfields']['u'], 'resolver.libis') !== false) {
                       $pid = explode('/', $field["856"]['subfields']['u']);
                       $pid = $pid[3];
                       $result["pid"][] = $pid;
-                    }                    
+                    }
                 endif;
             endif;
 

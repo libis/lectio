@@ -6,10 +6,10 @@ require 'File/MARC.php';
 require 'File/MARCXML.php';
 
 class AlmaTalker{
-    
+
     protected $object_id;
     protected $key;
-    protected $alma_url = "https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/";    
+    protected $alma_url = "https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/";
 
     public function __construct($id,$key) {
         $this->object_id = $id;
@@ -20,9 +20,9 @@ class AlmaTalker{
         return $id;
     }
 
-    public function alma_curl($url){        
+    public function alma_curl($url){
         $ch = curl_init($url);
-        
+
         $options = array(
             CURLOPT_HEADER => "Content-Type:application/xml",
             CURLOPT_RETURNTRANSFER => 1,
@@ -31,7 +31,7 @@ class AlmaTalker{
         curl_setopt_array($ch, $options);
 
         $alma_xml = curl_exec($ch);
-        
+
         if (curl_errno($ch)) {
             // this would be your first hint that something went wrong
             die('Couldn\'t send request: ' . curl_error($ch));
@@ -48,17 +48,17 @@ class AlmaTalker{
                 die('Request failed: HTTP status code: ' . $resultStatus);
             }
         }
-        
+
         curl_close($ch);
         return $alma_xml;
     }
 
-    public function get_bibrecord(){        
-        $bibrecord = $this->alma_curl($this->alma_url.$this->object_id."?apikey=".$this->key);   
-        //$record = json_encode($bibrecord);     
-        $record = new File_MARCXML($bibrecord,File_MARC::SOURCE_STRING);        
+    public function get_bibrecord(){
+        $bibrecord = $this->alma_curl($this->alma_url.$this->object_id."?apikey=".$this->key);
+        //$record = json_encode($bibrecord);
+        $record = new File_MARCXML($bibrecord,File_MARC::SOURCE_STRING);
         return $record;
-    }    
+    }
 
     public function get_holdings_links(){
         $hold_links = array();
@@ -68,15 +68,15 @@ class AlmaTalker{
             if($hold->holding_id):
                 $attr = $hold->attributes();
                 $hold_links[]=$attr['link'];
-            endif;    
+            endif;
         endforeach;
         return $hold_links;
     }
 
     public function get_holdings(){
         $links = $this->get_holdings_links();
-        
-        foreach($links as $link):            
+
+        foreach($links as $link):
             $holding = $this->alma_curl($link."?apikey=".$this->key);
             $record = new File_MARCXML($holding,File_MARC::SOURCE_STRING);            
             $records[] = $record;
@@ -85,7 +85,7 @@ class AlmaTalker{
     }
 
     public function make_marc_json(){
-        $bibrecord = $this->get_bibrecord();        
+        $bibrecord = $this->get_bibrecord();
         $holdings = $this->get_holdings();
         //var_dump($bibrecord);
         $json="";
@@ -93,20 +93,20 @@ class AlmaTalker{
         while ($record = $bibrecord->next()) {
             //this is the bibrecord
             foreach($holdings as $holding):
-                while ($record_hold = $holding->next()) {   
-                    //these are the holding records 
+                while ($record_hold = $holding->next()) {
+                    //these are the holding records
                     $fields = $record_hold->getFields();
                     foreach($fields as $field):
                         if($field->isDataField()):
                             $record->appendField($field);
-                        endif;        
+                        endif;
                     endforeach;
                 }
             endforeach;
-                        
+
             $json .= $record->toJSON();
         }
-        return $json;            
+        return $json;
     }
 
 }

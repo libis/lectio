@@ -29,6 +29,7 @@ class Importer{
         endforeach;
 
         return $new_mapping;
+
     }
 
     public function go(){
