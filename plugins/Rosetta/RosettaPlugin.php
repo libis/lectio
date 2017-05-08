@@ -157,7 +157,9 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
         //insert metadata
         if($metadata = rosetta_get_metadata($url)):
             foreach($metadata as $key => $value):
-                if($key != 'tableOfContents'):
+                $element = get_db()->getTable('Element')->findByElementSetNameAndElementName('Dublin Core', ucfirst($key));
+
+                if($element != null):
                     if(!$file->hasElementText('Dublin Core', ucfirst($key))):
                         $element = $file->getElement('Dublin Core', ucfirst($key));
                         if(is_array($value)):

@@ -109,7 +109,7 @@ class Importer{
                     $element_text->record_type = 'Item';
                     $element_text->element_id = $element->id;
                     $element_text->html = 0;
-                    $element_text->text = $text;
+                    $element_text->text = utf8_decode($text);
                     $element_text->save();
                 endforeach;
             endif;

@@ -87,9 +87,16 @@ class Transformer{
 
             if(isset($field["856"])):
                 if($field["856"]["ind1"]='4'&&$field["856"]["ind2"]=='0'):
-                    $pid = explode('pid=', $field["856"]['subfields']['u']);
-                    $pid = end($pid);
-                    $result["pid"][] = $pid;
+                    if (strpos($field["856"]['subfields']['u'], 'pid=') !== false) {
+                      $pid = explode('pid=', $field["856"]['subfields']['u']);
+                      $pid = end($pid);
+                      $result["pid"][] = $pid;
+                    }
+                    if (strpos($field["856"]['subfields']['u'], 'libis.resolver') !== false) {
+                      $pid = explode('/', $field["856"]['subfields']['u']);
+                      $pid = $pid[3];
+                      $result["pid"][] = $pid;
+                    }                    
                 endif;
             endif;
 
