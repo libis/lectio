@@ -178,36 +178,32 @@ class Transformer{
             endif;
 
             if(isset($field["544"])):
-                $result[]["source"]=$field["544"]['subfields']['a'];
+                $result["source"]=$field["544"]['subfields']['a'];
                 if ($field["544"]['subfields']['b'] != null) {
-	        		$result["IdentifierCallnumber"][] = $field["544"]['subfields']['b'];
-			    }
-            endif;
-
-            if(isset($field["852"])):
+        		       $result["IdentifierCallnumber"][] = $field["544"]['subfields']['b'];
+                }
+            elseif(isset($field["852"])):
                 if (!isset($field["852"]['subfields']['l'])) {
+        				    $data =$field["852"]['subfields']['b'];
+        				    switch ($data) {
+          				    case "BIBC":
+          					    $data = "KU Leuven. Division of Heritage & Culture";
+          					    break;
+          				    case "GBIB":
+          					    $data = "KU Leuven. Maurits Sabbe Library (Theology)";
+          					    break;
+          				    case "WBIB":
+          					    $data = "KU Leuven. Campuslibrary Arenberg";
+          					    break;
+          				    default:
+		                }//end switch
 
-				    $data =$field["852"]['subfields']['b'];
-				    switch ($data) {
-				    case "BIBC":
-					    $data = "KU Leuven. Division of Heritage & Culture";
-					    break;
-				    case "GBIB":
-					    $data = "KU Leuven. Maurits Sabbe Library (Theology)";
-					    break;
-				    case "WBIB":
-					    $data = "KU Leuven. Campuslibrary Arenberg";
-					    break;
-				    default:
+		                $result['source'][]= $data;
 
-				    }//end switch
-
-				    $result['source'][]= $data;
-
-				    if ($field["852"]['subfields']['h'] != null) {
-					    $result["IdentifierCallnumber"][] = $field["852"]['subfields']['h'];
-				    }
-			    }
+        				    if ($field["852"]['subfields']['h'] != null) {
+        					    $result["IdentifierCallnumber"][] = $field["852"]['subfields']['h'];
+        				    }
+                }
             endif;
 
             if (isset($field["700"])):
