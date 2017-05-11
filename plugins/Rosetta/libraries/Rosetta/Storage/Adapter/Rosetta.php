@@ -1,7 +1,7 @@
 <?php
 /**
  * Omeka
- * 
+ *
  * @copyright Copyright 2007-2012 Roy Rosenzweig Center for History and New Media
  * @license http://www.gnu.org/licenses/gpl-3.0.txt GNU GPLv3
  */
@@ -9,24 +9,24 @@
 /**
  * Standard local filesystem storage adapter.
  *
- * The default adapter; this stores files in the Omeka files directory by 
+ * The default adapter; this stores files in the Omeka files directory by
  * default, but can be set to point to a different path.
- * 
+ *
  * @package Omeka\Storage\Adapter
  */
 class Rosetta_Storage_Adapter_Rosetta implements Omeka_Storage_Adapter_AdapterInterface
 {
     /**
      * Local directory where files are stored.
-     * 
+     *
      * @var string
      */
     protected $_localDir;
 
     protected $_subDirs = array(
-        'thumbnails', 
-        'square_thumbnails', 
-        'fullsize', 
+        'thumbnails',
+        'square_thumbnails',
+        'fullsize',
         'original',
         'theme_uploads'
     );
@@ -131,13 +131,13 @@ class Rosetta_Storage_Adapter_Rosetta implements Omeka_Storage_Adapter_AdapterIn
     public function move($source, $dest)
     {
         if (strpos($source,'_resolver') == false):
-            $status = $this->_rename($this->_getAbsPath($source), 
+            $status = $this->_rename($this->_getAbsPath($source),
                 $this->_getAbsPath($dest));
 
             if(!$status) {
                 throw new Omeka_Storage_Exception('Unable to move file.');
             }
-        endif;    
+        endif;
     }
 
     /**
@@ -171,17 +171,17 @@ class Rosetta_Storage_Adapter_Rosetta implements Omeka_Storage_Adapter_AdapterIn
             $uri = get_option('rosetta_resolver');
             $path_parts = pathinfo($path);
             $name = str_replace('_resolver','',$path_parts['filename']);
-            
+
             //get correct link to resolver
             if(strpos($path,'original') !== false):
-                return "http://depot.lias.be/delivery/DeliveryManagerServlet?dps_pid=".$name."&mirador=true";
+                return "http://resolver.libis/".$name."/representation";
             endif;
-            
+
             //get correct link to resolver
             if(strpos($path,'fullsize') !== false):
                 return $uri.'/'.$name.'/stream?quality=HIGH';
-            endif;            
-            
+            endif;
+
             return $uri.'/'.$name;
         endif;
         return $this->_webDir . '/'. $path;;
