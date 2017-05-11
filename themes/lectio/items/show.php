@@ -82,7 +82,7 @@
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
 
-        <?php if ($text = metadata('item', array('Dublin Core', 'Alternative Title'),array('delimiter'=>'; '))): ?>
+        <?php if ($text = metadata('item', array('Dublin Core', 'Alternative Title'),array('delimiter'=>'<br />'))): ?>
         <h3>Other titles</h3>
         <div class="element-text"><?php echo $text; ?></div>
         <?php endif; ?>
