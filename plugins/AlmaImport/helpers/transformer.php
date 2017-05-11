@@ -177,12 +177,13 @@ class Transformer{
                 endif;
             endif;
 
-            if(isset($field["544"])):
-                $result["source"]=$field["544"]['subfields']['a'];
+            if(isset($field["544"])){
+                $result["source"][]=$field["544"]['subfields']['a'];
                 if ($field["544"]['subfields']['b'] != null) {
         		       $result["IdentifierCallnumber"][] = $field["544"]['subfields']['b'];
                 }
-            elseif(isset($field["852"])):
+            }
+            elseif(isset($field["852"])){
                 if (!isset($field["852"]['subfields']['l'])) {
         				    $data =$field["852"]['subfields']['b'];
         				    switch ($data) {
@@ -204,7 +205,7 @@ class Transformer{
         					    $result["IdentifierCallnumber"][] = $field["852"]['subfields']['h'];
         				    }
                 }
-            endif;
+            }
 
             if (isset($field["700"])):
 			    if($field["700"]['subfields']['4']=="stu" || $field["700"]['subfields']['4']=="pfs"
