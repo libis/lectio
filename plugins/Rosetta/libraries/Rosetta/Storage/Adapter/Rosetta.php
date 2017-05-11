@@ -174,7 +174,7 @@ class Rosetta_Storage_Adapter_Rosetta implements Omeka_Storage_Adapter_AdapterIn
 
             //get correct link to resolver
             if(strpos($path,'original') !== false):
-                return "http://resolver.libis/".$name."/representation";
+                return "http://resolver.libis.be/".$name."/representation";
             endif;
 
             //get correct link to resolver
