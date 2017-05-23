@@ -19,6 +19,7 @@ class AlmaImport_IndexController extends Omeka_Controller_AbstractActionControll
     {
         $records="";
         $ids = isset($_POST['ids']) ? $_POST['ids'] : '';
+        $download_images = false;
 
         $status='';
         //get ids
@@ -34,12 +35,15 @@ class AlmaImport_IndexController extends Omeka_Controller_AbstractActionControll
 
             $type = isset($_POST['item-type']) ? $_POST['item-type'] : '';
             $collection = isset($_POST['collection']) ? $_POST['collection'] : '';
+            if(isset($_POST['images'])):
+                  $download_images = true;
+            endif;
 
             //do lectio specific manipulation
             $transformer = new Transformer($records);
             $result = $transformer->get_array();
 
-            $status = $this->_import($result,$type,$collection);
+            $status = $this->_import($result,$type,$collection,$download_imgages);
         endif;
 
         //get item types and collections
@@ -58,7 +62,7 @@ class AlmaImport_IndexController extends Omeka_Controller_AbstractActionControll
 
         $mapping_rules =  file_get_contents($mappingFilePath);
 
-        $import = new Importer($data, $mapping_rules,$type,$collection);
+        $import = new Importer($data, $mapping_rules,$type,$collection,$download_images);
         $status =  $import->go();
         return $status;
     }

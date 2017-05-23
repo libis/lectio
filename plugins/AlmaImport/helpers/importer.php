@@ -5,8 +5,9 @@ class Importer{
     protected $mapping;
     protected $type;
     protected $collection;
+    protected $download;
 
-    public function __construct($alma_array, $mapping,$type,$collection) {
+    public function __construct($alma_array, $mapping,$type,$collection,$download) {
         $this->records = $alma_array['results'];
 
         /*echo '<pre>';
@@ -16,6 +17,7 @@ class Importer{
         $this->mapping = $this->process_mapping($mapping);
         $this->type = $type;
         $this->collection = $collection;
+        $this->download = $download;
     }
 
     protected function process_mapping($mapping){
@@ -59,6 +61,7 @@ class Importer{
     }
 
     protected function map($record_metadata,$item = null){
+        $pids = explode('$$',$record_metadata['pid']);
         //create new item if none exist
         if(!$item):
             $new_item = true;
@@ -71,17 +74,23 @@ class Importer{
             $item->save();
         else:
             $new_item = false;
-            //delete old files
-            $files = $item->getFiles();
-            foreach($files as $file):
-                $file->delete();
-            endforeach;
+            //delete old files if needed
+            if($this->download):
+                $files = $item->getFiles();
+                foreach($files as $file):
+                    //only delete files present in ALMA
+                    if (strpos($record_metadata['pid'],$file->original_filename) !== false):
+                      $file->delete();
+                    endif;
+                endforeach;
+            endif;
         endif;
 
         //add files (needs rosetta plugin)
-        $pids = explode('$$',$record_metadata['pid']);
-        if($pids):
-            $this->add_files($item,$pids);
+        if($this->download):
+            if($pids):
+                $this->add_files($item,$pids);
+            endif;
         endif;
 
         //handle metadata

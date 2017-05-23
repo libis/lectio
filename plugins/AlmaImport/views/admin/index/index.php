@@ -38,11 +38,17 @@
                 </select>
               </div>
             </div>
+            <div class="field">
+              <?php echo $this->formLabel('images', 'Images'); ?>
+              <div class='inputs'>
+                <p class="explanation">Download or redownload images? Images not present in ALMA are left untouched.</p>
+                <input type="checkbox" name="images" value="image">
+              </div>
+            </div>
 
             <div class="field">
               <?php echo $this->formSubmit('send', 'Insert'); ?>
             </div>
-
         </form>
     </div>
 </div>
