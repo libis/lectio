@@ -115,7 +115,7 @@
         <!-- Title. -->
         <a href="<?php echo $url; ?>" class="result-title">
             <?php
-                $title = metadata('item', array('Dublin Core', 'Title');
+                $title = metadata('item', array('Dublin Core', 'Title'));
 
                 if (empty($title)) {
                     $title = '<i>' . __('Untitled') . '</i>';
