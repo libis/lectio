@@ -9,13 +9,13 @@
 
 <?php queue_css_file('results'); ?>
 <?php echo head(array('title' => __('Solr Search')));?>
-<?php 
+<?php
     $title = 'Search the Collection';
     if(isset($_GET['facet'])):
         if(strpos($_GET['facet'],'News') !== false || strpos($_GET['facet'],'Event')):
             $title = "News & events";
         endif;
-    endif;   
+    endif;
 ?>
 <h1><?php echo __($title); ?></h1>
 
@@ -28,8 +28,8 @@
         echo array_key_exists('q', $_GET) ? $_GET['q'] : '';
       ?>" />
     </span>
-    <a class="search-help" href="<?php echo url('search-help'); ?>">&RightTeeArrow; Search tips</a>  
-  </form>    
+    <a class="search-help" href="<?php echo url('search-help'); ?>">&RightTeeArrow; Search tips</a>
+  </form>
 </div>
 
 <!-- Applied facets. -->
@@ -47,7 +47,7 @@
         <a href="<?php echo $url; ?>">x</a>
       </li>
     <?php endforeach; ?>
-      
+
     <?php if(SolrSearch_Helpers_Facet::parseFacets()):?>
       <li><a href="<?php echo url('solr-search?q='.$_GET['q']) ?>">Remove all filters</a></li>
     <?php endif;?>
@@ -102,7 +102,8 @@
   </h2>
 
   <?php foreach ($results->response->docs as $doc):?>
-
+    <?php $item = get_record_by_id('item',preg_replace ( '/[^0-9]/', '', $doc->__get('id')));?>
+    <?php set_current_record('item',$item); ?>
     <!-- Document. -->
     <div class="result">
       <!-- Header. -->
@@ -114,60 +115,59 @@
         <!-- Title. -->
         <a href="<?php echo $url; ?>" class="result-title">
             <?php
-                $title = is_array($doc->title) ? $doc->title[0] : $doc->title;
-                
+                $title = metadata('item', array('Dublin Core', 'Title');
+
                 if (empty($title)) {
                     $title = '<i>' . __('Untitled') . '</i>';
                 }
                 echo $title;
-                
+
             ?>
         </a>
-        
+
       </div>
 
       <!-- Image. -->
-      <?php $item = get_record_by_id('item',preg_replace ( '/[^0-9]/', '', $doc->__get('id')));?>                                         
-        <?php set_current_record('item',$item); ?>
+
         <!-- Document. -->
         <?php if (item_image('thumbnail')): ?>
             <div class="item-img">
                 <a href="<?php echo record_url($item) ?>"><?php echo item_image('thumbnail'); ?></a>
             </div>
-        <?php endif; ?>  
-        
-        <div class='item-metadata'>           
+        <?php endif; ?>
 
-            <table class="sho-table browse-table">           
+        <div class='item-metadata'>
+
+            <table class="sho-table browse-table">
             <?php if ($text = metadata('item', array('Dublin Core', 'Source'),array('delimiter'=>', '))): ?>
             <tr><td>
-                <b>Source</b>    
-            </td><td> 
+                <b>Source</b>
+            </td><td>
                 <?php echo $text; ?>
             </td></tr>
             <?php endif; ?>
-            
+
             <?php if ($text = metadata('item', array('Item Type Metadata', 'Call number'),array('delimiter'=>', '))): ?>
             <tr><td>
-                <b>Call number</b>    
-            </td><td> 
+                <b>Call number</b>
+            </td><td>
                 <?php echo $text; ?>
             </td></tr>
             <?php endif; ?>
-            
+
             <?php if ($text = metadata('item', array('Dublin Core', 'Date'),array('delimiter'=>', '))): ?>
             <tr><td>
-                <b>Date</b>    
-            </td><td> 
+                <b>Date</b>
+            </td><td>
                 <?php echo $text; ?>
             </td></tr>
             <?php endif; ?>
-            
-          
+
+
             </table>
         </div>
     </div>
-    
+
   <?php endforeach; ?>
 
 </div>
