@@ -66,7 +66,7 @@ class AlmaTalker{
         $reps = new SimpleXMLElement($reps);
         foreach($reps as $rep):
             if($rep->id):
-                $attr = $hold->attributes();
+                $attr = $rep->attributes();
                 $rep_links[]=$attr['link'];
             endif;
         endforeach;
