@@ -75,10 +75,10 @@ class AlmaTalker{
 
     public function get_representations(){
         $links = $this->get_representation_links();
-
+        exit(var_dump($links));
         foreach($links as $link):
-            $reps = $this->alma_curl($link."?apikey=".$this->key);
-            $record = new File_MARCXML($holding,File_MARC::SOURCE_STRING);
+            $rep = $this->alma_curl($link."?apikey=".$this->key);
+            $record = new File_MARCXML($rep,File_MARC::SOURCE_STRING);
             $records[] = $record;
         endforeach;
         return $records;
