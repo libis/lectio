@@ -56,6 +56,7 @@ class Transformer{
 
     public function transform($fields){
         $result="";
+        var_dump($fields);
         foreach($fields as $field):
 
             if(isset($field["001"])):

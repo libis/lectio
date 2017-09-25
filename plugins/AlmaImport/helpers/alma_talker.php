@@ -60,6 +60,30 @@ class AlmaTalker{
         return $record;
     }
 
+    public function get_representation_links(){
+        $rep_links = array();
+        $reps = $this->alma_curl($this->alma_url.$this->object_id."/representations?apikey=".$this->key);
+        $reps = new SimpleXMLElement($reps);
+        foreach($reps as $rep):
+            if($rep->id):
+                $attr = $hold->attributes();
+                $rep_links[]=$attr['link'];
+            endif;
+        endforeach;
+        return $rep_links;
+    }
+
+    public function get_representations(){
+        $links = $this->get_representation_links();
+
+        foreach($links as $link):
+            $reps = $this->alma_curl($link."?apikey=".$this->key);
+            $record = new File_MARCXML($holding,File_MARC::SOURCE_STRING);
+            $records[] = $record;
+        endforeach;
+        return $records;
+    }
+
     public function get_holdings_links(){
         $hold_links = array();
         $holdings = $this->alma_curl($this->alma_url.$this->object_id."/holdings?apikey=".$this->key);
@@ -78,7 +102,7 @@ class AlmaTalker{
 
         foreach($links as $link):
             $holding = $this->alma_curl($link."?apikey=".$this->key);
-            $record = new File_MARCXML($holding,File_MARC::SOURCE_STRING);            
+            $record = new File_MARCXML($holding,File_MARC::SOURCE_STRING);
             $records[] = $record;
         endforeach;
         return $records;
@@ -87,6 +111,7 @@ class AlmaTalker{
     public function make_marc_json(){
         $bibrecord = $this->get_bibrecord();
         $holdings = $this->get_holdings();
+        $reps = $this->get_representations();
         //var_dump($bibrecord);
         $json="";
 
@@ -96,6 +121,18 @@ class AlmaTalker{
                 while ($record_hold = $holding->next()) {
                     //these are the holding records
                     $fields = $record_hold->getFields();
+                    foreach($fields as $field):
+                        if($field->isDataField()):
+                            $record->appendField($field);
+                        endif;
+                    endforeach;
+                }
+            endforeach;
+
+            foreach($reps as $rep):
+                while ($record_rep = $rep->next()) {
+                    //these are the representation records
+                    $fields = $record_rep->getFields();
                     foreach($fields as $field):
                         if($field->isDataField()):
                             $record->appendField($field);
