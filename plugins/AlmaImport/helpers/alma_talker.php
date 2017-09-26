@@ -145,13 +145,13 @@ class AlmaTalker{
                 }*/
             endforeach;
 
-            $json_record .= $record->toJSON();
+            $json_record = $record->toJSON();
             $json_array = json_decode($json_record,true);
             $json_array['representation'] = $rep_json;
             $json_record = json_encode($json_array);
             $json .= $json_record;
         }
-        exit(var_dump($json));
+        //exit(var_dump($json));
         return $json;
     }
 

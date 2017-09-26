@@ -17,6 +17,8 @@ class Transformer{
             $final['results'][]= $result;
         endforeach;
 
+        exit(var_dump($final));
+
         return json_encode($final);
     }
 
@@ -26,7 +28,13 @@ class Transformer{
             $record = json_decode($record,true);
             //simplify the array
             $fields = $this->parse_fields($record['fields']);
-            $result = $this->transform($fields);
+            if(isset($record['representation'])):
+              $representation = $record['representation'];
+            else:
+              $representation = "";
+            endif;
+
+            $result = $this->transform($fields,$representation);
             $final['results'][]= $result;
         endforeach;
 
@@ -54,7 +62,7 @@ class Transformer{
         return $this->array_to_json();
     }
 
-    public function transform($fields){
+    public function transform($fields,$representation){
         $result="";
         die(var_dump($fields));
         foreach($fields as $field):
@@ -86,19 +94,22 @@ class Transformer{
                 endif;
             endif;
 
-            if(isset($field["856"])):
-                if($field["856"]["ind1"]='4'&&$field["856"]["ind2"]=='0'):
-                    if (strpos($field["856"]['subfields']['u'], 'pid=') !== false) {
-                      $pid = explode('pid=', $field["856"]['subfields']['u']);
-                      $pid = end($pid);
-                      $result["pid"][] = $pid;
-                    }
-                    if (strpos($field["856"]['subfields']['u'], 'resolver.libis') !== false) {
-                      $pid = explode('/', $field["856"]['subfields']['u']);
-                      $pid = $pid[3];
-                      $result["pid"][] = $pid;
-                    }
-                endif;
+            if($representation):
+              $result["pid"][]= $representation["linking_parameter_1"];
+            elseif(isset($field["856"])):
+                  if($field["856"]["ind1"]='4'&&$field["856"]["ind2"]=='0'):
+                      if (strpos($field["856"]['subfields']['u'], 'pid=') !== false) {
+                        $pid = explode('pid=', $field["856"]['subfields']['u']);
+                        $pid = end($pid);
+                        $result["pid"][] = $pid;
+                      }
+                      if (strpos($field["856"]['subfields']['u'], 'resolver.libis') !== false) {
+                        $pid = explode('/', $field["856"]['subfields']['u']);
+                        $pid = $pid[3];
+                        $result["pid"][] = $pid;
+                      }
+                  endif;
+              endif;
             endif;
 
             if(isset($field["260"])):
