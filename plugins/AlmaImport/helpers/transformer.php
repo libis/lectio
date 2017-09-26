@@ -27,7 +27,9 @@ class Transformer{
             //simplify the array
             $fields = $this->parse_fields($record['fields']);
             if(isset($record['representation'])):
-              $fields[]['representation'] = $record['representation'][0];
+              foreach($record['representation'] as $rep):
+                $fields[]['representation'] = $rep;
+              endforeach;
               $representation = true;
             else:
               $fields[]['representation'] = "";
