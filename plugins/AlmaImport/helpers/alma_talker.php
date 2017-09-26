@@ -118,8 +118,8 @@ class AlmaTalker{
 
         while ($record = $bibrecord->next()) {
             //this is the bibrecord
-            $rep_json = "";
-            
+            $rep_json = array();
+
             foreach($holdings as $holding):
                 while ($record_hold = $holding->next()) {
                     //these are the holding records
@@ -133,7 +133,7 @@ class AlmaTalker{
             endforeach;
 
             foreach($reps as $rep):
-                $rep_json .= json_encode($rep);
+                $rep_json[] = $rep;
                 /*while ($record_rep = $rep->next()) {
                     //these are the representation records
                     $fields = $record_rep->getFields();
@@ -145,8 +145,11 @@ class AlmaTalker{
                 }*/
             endforeach;
 
-            $json .= $record->toJSON();
-            $json .= $rep;
+            $json_record .= $record->toJSON();
+            $json_array = json_decode($json_record,true);
+            $json_array['representation'] = $rep_json;
+            $json_record = json_encode($json_array);
+            $json .= $json_record;
         }
         exit(var_dump($json));
         return $json;
