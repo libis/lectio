@@ -75,11 +75,12 @@ class AlmaTalker{
 
     public function get_representations(){
         $links = $this->get_representation_links();
-        exit(var_dump($links));
+        //exit(var_dump($links));
         foreach($links as $link):
             $rep = $this->alma_curl($link."?apikey=".$this->key);
-            $record = new File_MARCXML($rep,File_MARC::SOURCE_STRING);
-            $records[] = $record;
+            $rep = new SimpleXMLElement($rep);
+            //$record = new File_MARCXML($rep,File_MARC::SOURCE_STRING);
+            $records[] = $rep;
         endforeach;
         return $records;
     }
@@ -117,6 +118,8 @@ class AlmaTalker{
 
         while ($record = $bibrecord->next()) {
             //this is the bibrecord
+            $rep_json = "";
+            
             foreach($holdings as $holding):
                 while ($record_hold = $holding->next()) {
                     //these are the holding records
@@ -130,7 +133,8 @@ class AlmaTalker{
             endforeach;
 
             foreach($reps as $rep):
-                while ($record_rep = $rep->next()) {
+                $rep_json .= json_encode($rep);
+                /*while ($record_rep = $rep->next()) {
                     //these are the representation records
                     $fields = $record_rep->getFields();
                     foreach($fields as $field):
@@ -138,11 +142,13 @@ class AlmaTalker{
                             $record->appendField($field);
                         endif;
                     endforeach;
-                }
+                }*/
             endforeach;
 
             $json .= $record->toJSON();
+            $json .= $rep;
         }
+        exit(var_dump($json));
         return $json;
     }
 
