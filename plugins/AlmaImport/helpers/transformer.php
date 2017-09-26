@@ -32,7 +32,6 @@ class Transformer{
               endforeach;
               $representation = true;
             else:
-              $fields[]['representation'] = "";
               $representation = false;
             endif;
 
