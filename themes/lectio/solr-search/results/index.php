@@ -9,6 +9,27 @@
 
 <?php queue_css_file('results'); ?>
 <?php echo head(array('title' => __('Solr Search')));?>
+<script>
+  jQuery( document ).ready(function() {
+    jQuery('.facet-label').click(function(){
+
+      jQuery(this).next(".facet-list").toggle();
+
+      if(jQuery(this).hasClass("active")){
+        jQuery(this).removeClass("active");
+      }else{
+        jQuery(this).addClass("active");
+      }
+
+      if(jQuery(this).next(".facet-list").hasClass("active")){
+        jQuery(this).next(".facet-list").removeClass("active");
+      }else{
+        jQuery(this).next(".facet-list").addClass("active");
+      }
+      
+    });
+  });
+</script>
 <?php
     $title = 'Search the Collection';
     if(isset($_GET['facet'])):
@@ -17,6 +38,7 @@
         endif;
     endif;
 ?>
+
 <h1><?php echo __($title); ?></h1>
 
 <!-- Search form. -->
@@ -57,17 +79,17 @@
 <!-- Facets. -->
 <div id="solr-facets">
   <h2><?php echo __('Limit your search'); ?></h2>
-
+  <?php $i=0;?>
   <?php foreach ($results->facet_counts->facet_fields as $name => $facets): ?>
-
+    <?php $i++;?>
     <!-- Does the facet have any hits? -->
     <?php if (count(get_object_vars($facets))): ?>
 
       <!-- Facet label. -->
       <?php $label = SolrSearch_Helpers_Facet::keyToLabel($name); ?>
-      <strong><?php echo $label; ?></strong>
+      <h5 id="label-<?php echo $i;?>" class="facet-label"><?php echo $label; ?></h5>
 
-      <ul>
+      <ul id="list-<?php echo $i;?>" class="facet-list">
         <!-- Facets. -->
         <?php foreach ($facets as $value => $count): ?>
           <li class="<?php echo $value; ?>">
@@ -169,9 +191,8 @@
     </div>
 
   <?php endforeach; ?>
-
 </div>
 
 
 <?php echo pagination_links(); ?>
-<?php echo foot();
+<?php echo foot();?>

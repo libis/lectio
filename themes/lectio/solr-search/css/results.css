@@ -435,6 +435,7 @@ ul {
 
 #solr-facets ul{
   margin-bottom:1em;
+  display:none;
 }
 
 /* line 9, sass/results.scss */
@@ -514,7 +515,7 @@ ul {
 
 .result-header{
     margin-bottom:20px;
-    
+
   clear:both;
 }
 
@@ -549,7 +550,7 @@ ul {
     width:100%;
 }
 
-#solr-results table{    
+#solr-results table{
     width:95%;
     font-size:0.9em;
     margin:0;
@@ -567,4 +568,22 @@ ul {
 
 #solr-results table tr:last-child{
     border:none;
+}
+
+.facet-label{
+  margin-bottom:5px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+h5.facet-label::before{
+  content: '\25B2';
+  margin-right:3px;
+  font-size:0.6rem;
+  vertical-align: top;
+  color:
+}
+
+h5.active::before{
+  content: '\25BC';
 }
