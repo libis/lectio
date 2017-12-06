@@ -199,13 +199,13 @@ class Transformer{
         				    $data =$field["852"]['subfields']['b'];
         				    switch ($data) {
           				    case "BIBC":
-          					    $data = "KU Leuven. Division of Heritage & Culture";
+          					    $data = "KU Leuven Libraries, Special Collections";
           					    break;
           				    case "GBIB":
-          					    $data = "KU Leuven. Maurits Sabbe Library (Theology)";
+          					    $data = "KU Leuven Libraries, Maurits Sabbe Library";
           					    break;
           				    case "WBIB":
-          					    $data = "KU Leuven. Campuslibrary Arenberg";
+          					    $data = "KU Leuven Libraries, 2Bergen";
           					    break;
           				    default:
 		                }//end switch
