@@ -577,7 +577,8 @@ ul {
 }
 
 h5.facet-label::before{
-  content: '\25B2';
+
+  content: '\25BC';
   margin-right:3px;
   font-size:0.6rem;
   vertical-align: top;
@@ -585,5 +586,5 @@ h5.facet-label::before{
 }
 
 h5.active::before{
-  content: '\25BC';
+  content: '\25B2';
 }
