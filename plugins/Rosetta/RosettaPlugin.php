@@ -20,7 +20,6 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
         'config_form',
         'config',
         'after_save_item',
-        'before_save_file',
         'define_acl',
         'admin_items_form_files'
     );
@@ -134,44 +133,6 @@ class RosettaPlugin extends Omeka_Plugin_AbstractPlugin
             else:
                 return false;
             endif;
-        endif;
-    }
-
-    /**
-     * load and save metadata of a rosetta object/file
-     *
-     * @param type $args
-     * @return type
-     */
-    public function hookBeforeSaveFile($args){
-        //only get metadata on file insert
-        if (!$args['insert']) {
-            return;
-        }
-
-        $file = $args['record'];
-
-        $base_url = get_option('rosetta_resolver');
-        $url = $base_url."/".$file->original_filename."/metadata";
-
-        //insert metadata
-        if($metadata = rosetta_get_metadata($url)):
-            foreach($metadata as $key => $value):
-                $element = get_db()->getTable('Element')->findByElementSetNameAndElementName('Dublin Core', ucfirst($key));
-
-                if($element != null):
-                    if(!$file->hasElementText('Dublin Core', ucfirst($key))):
-                        $element = $file->getElement('Dublin Core', ucfirst($key));
-                        if(is_array($value)):
-                            foreach($value as $text):
-                                $file->addTextForElement($element, $text);
-                            endforeach;
-                        else:
-                            $file->addTextForElement($element, $value);
-                        endif;
-                    endif;
-                endif;
-            endforeach;
         endif;
     }
 
