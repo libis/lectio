@@ -13,6 +13,14 @@
     <?php if (metadata('item', 'has files')): ?>
     <div id="itemfiles" class="element">
         <div class="element-text"><?php echo files_for_item(); ?></div>
+        <?php if ($files = $item->Files): ?>
+            <?php if(substr( $files[0]["original_filename"], 0, 2 ) === "IE")?>
+              <a class='element-link' href=" <?php echo file_display_url($files[0], 'original');?>">&raquo; IMAGES</a><br>
+              <a target="_blank" href="http://services.libis.be/m2/manifest/<?php echo $files[0]["original_filename"]; ?>manifest.json">
+                  <img src="http://manifests.britishart.yale.edu/logo-iiif.png" alt="IIIF Manifest">
+              </a>
+            <?php endif;?>
+        <?php endif; ?>
     </div>
     <?php endif; ?>
 
