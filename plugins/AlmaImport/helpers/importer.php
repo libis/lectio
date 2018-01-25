@@ -79,9 +79,10 @@ class Importer{
                 $files = $item->getFiles();
                 foreach($files as $file):
                     //only delete files present in ALMA
-                    if (strpos($record_metadata['pid'],$file->original_filename) !== false):
+                    //lectio require all files to be deleted - Diederik 20-01-2017
+                    //if (strpos($record_metadata['pid'],$file->original_filename) !== false):
                       $file->delete();
-                    endif;
+                    //endif;
                 endforeach;
             endif;
         endif;
