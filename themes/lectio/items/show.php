@@ -16,7 +16,7 @@
         <?php if ($files = $item->Files): ?>
             <?php if(substr( $files[0]["original_filename"], 0, 2 ) === "IE"):?>
               <br>
-              <a target="_blank" href="http://services.libis.be/m2/manifest/<?php echo $files[0]["original_filename"]; ?>manifest.json">
+              <a target="_blank" href="http://services.libis.be/m2/manifest/<?php echo $files[0]["original_filename"]; ?>">
                   <img height="22" src="http://manifests.britishart.yale.edu/logo-iiif.png" alt="IIIF Manifest">
               </a>
             <?php endif;?>
