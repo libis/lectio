@@ -98,11 +98,13 @@ class Importer{
         if(!$new_item):
           foreach($this->mapping as $map_element):
             $element = get_db()->getTable('Element')->findByElementSetNameAndElementName($map_element['set'], $map_element['name']);
-            $existing_texts = get_db()->getTable('ElementText')->findBy(array('record_id' => $item->id, 'element_id' => $element->id));
-            foreach($existing_texts as $existing_text):
-                $existing_text->delete();
-            endforeach;
-          endforeach;  
+            if($element != null):
+              $existing_texts = get_db()->getTable('ElementText')->findBy(array('record_id' => $item->id, 'element_id' => $element->id));
+              foreach($existing_texts as $existing_text):
+                  $existing_text->delete();
+              endforeach;
+            endif;  
+          endforeach;
         endif;
 
         //handle new metadata
