@@ -94,7 +94,18 @@ class Importer{
             endif;
         endif;
 
-        //handle metadata
+        //delete old Metadata
+        if(!$new_item):
+          foreach($this->mapping as $map_element):
+            $element = get_db()->getTable('Element')->findByElementSetNameAndElementName($map_element['set'], $map_element['name']);
+            $existing_texts = get_db()->getTable('ElementText')->findBy(array('record_id' => $item->id, 'element_id' => $element->id));
+            foreach($existing_texts as $existing_text):
+                $existing_text->delete();
+            endforeach;
+          endforeach;  
+        endif;
+
+        //handle new metadata
         foreach($record_metadata as $key=>$metadata):
             if(isset($this->mapping[$key])):
                 $element_name = $this->mapping[$key]['name'];
@@ -107,14 +118,7 @@ class Importer{
 
             //delete if exists
             if($element != null):
-                if(!$new_item):
-                    $existing_texts = get_db()->getTable('ElementText')->findBy(array('record_id' => $item->id, 'element_id' => $element->id));
-                    foreach($existing_texts as $existing_text):
-                        $existing_text->delete();
-                    endforeach;
-                endif;
-
-                foreach($element_texts as $text):
+              foreach($element_texts as $text):
                     $element_text = new ElementText();
                     $element_text->record_id = $item->id;
                     $element_text->record_type = 'Item';
