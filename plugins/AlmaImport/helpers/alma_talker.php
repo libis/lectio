@@ -101,6 +101,7 @@ class AlmaTalker{
 
     public function get_holdings(){
         $links = $this->get_holdings_links();
+        $records = array();
 
         foreach($links as $link):
             $holding = $this->alma_curl($link."?apikey=".$this->key);
@@ -150,7 +151,7 @@ class AlmaTalker{
             $json_array = json_decode($json_record,true);
             if(!empty($rep_json)):
               $json_array['representation'] = $rep_json;
-            endif;  
+            endif;
             $json_record = json_encode($json_array);
             $json .= $json_record;
         }
