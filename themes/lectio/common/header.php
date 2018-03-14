@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html class="<?php echo get_theme_option('Style Sheet'); ?>" lang="<?php echo get_html_lang(); ?>">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php if ($description = option('description')): ?>
     <meta name="description" content="<?php echo $description; ?>">
     <?php endif; ?>
@@ -30,7 +30,7 @@
     ?>
 
     <!-- JavaScripts -->
-    <?php 
+    <?php
     queue_js_file(array(
         'vendor/selectivizr',
         'vendor/jquery-accessibleMegaMenu',
@@ -39,10 +39,19 @@
         'jquery.cycle2.min',
         'seasons',
         'globals'
-    )); 
+    ));
     ?>
-    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200' rel='stylesheet' type='text/css'>	
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200' rel='stylesheet' type='text/css'>
     <?php echo head_js(); ?>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115614364-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-115614364-1');
+    </script>
 </head>
 <?php echo body_tag(array('id' => @$bodyid, 'class' => @$bodyclass)); ?>
     <a href="#content" id="skipnav"><?php echo __('Skip to main content'); ?></a>
@@ -51,18 +60,18 @@
         <header role="banner">
             <div id="site-title">
                 <a href="<?php echo html_escape(WEB_ROOT)."/";?>"><?php echo option('site_title'); ?></a>
-                
-		 
+
+
             </div>
 	   <nav id="top-nav" class="top" role="navigation">
 		    <?php echo public_nav_main(); ?>
-		</nav>	
+		</nav>
             <div id="search-container" role="search">
                 <?Php echo search_form(); ?>
             </div>
             <?php fire_plugin_hook('public_header', array('view'=>$this)); ?>
         </header>
-        
+
         <?php echo caroussel_show();?>
 
         <div id="content" role="main" tabindex="-1">
