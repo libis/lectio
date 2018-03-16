@@ -103,7 +103,7 @@ class Importer{
               foreach($existing_texts as $existing_text):
                   $existing_text->delete();
               endforeach;
-            endif;  
+            endif;
           endforeach;
         endif;
 
@@ -142,7 +142,7 @@ class Importer{
 
         foreach($pids as $pid):
             //download the file, start with the highest quality (to get more accurate metadata)
-            $obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid);
+            $obj = rosetta_download_image(get_option('rosetta_resolver').'/'.$pid.'/stream?quality=low');
 
             file_put_contents('/tmp/'.$pid.'_resolver',$obj);
 
