@@ -26,7 +26,7 @@
       }else{
         jQuery(this).next(".facet-list").addClass("active");
       }
-      
+
     });
   });
 </script>
@@ -47,7 +47,7 @@
     <input type="submit" value="Search" />
     <span class="float-wrap">
       <input type="text" title="<?php echo __('Search keywords') ?>" name="q" value="<?php
-        echo array_key_exists('q', $_GET) ? $_GET['q'] : '';
+        echo array_key_exists('q', $_GET) ? htmlspecialchars(strip_tags($_GET['q'])) : '';
       ?>" />
     </span>
     <a class="search-help" href="<?php echo url('search-help'); ?>">&RightTeeArrow; Search tips</a>
